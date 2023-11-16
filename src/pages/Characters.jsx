@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const Characters = ({ logo }) => {
+const Characters = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,8 +16,6 @@ const Characters = ({ logo }) => {
       : text;
   };
 
-  console.log(logo);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +25,7 @@ const Characters = ({ logo }) => {
         // console.log(response.data);
         setData(response.data);
         setIsLoading(false);
-        console.log(data);
+        console.log(response.data);
       } catch (error) {
         console.log(error.response.data);
       }

@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 // Images
-import logo from "./assets/img/Marvel_Logo.svg.png";
+import logo from "./assets/img/Marvel_Logo.png";
 
 // Pages
 import Characters from "./pages/Characters";
@@ -14,9 +14,8 @@ import Header from "./components/Header";
 
 const App = () => {
   // States
-  const [search, setSearch] = useState({
-    name: "",
-  });
+  const [search, setSearch] = useState("");
+  // console.log(logo);
 
   // Fonctions
   const handleChange = (event) => {
@@ -37,13 +36,12 @@ const App = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     try {
-      setSearch({
-        ...search,
-      });
-      // console.log(search);
+      // setSearch({
+      //   ...search,
+      // });
     } catch (error) {
       console.log(error.response); // contrairement au error.message d'express
     }
@@ -59,7 +57,7 @@ const App = () => {
       />
       <Routes>
         {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/characters" element={<Characters logo={logo} />} />
+        <Route path="/characters" element={<Characters />} />
       </Routes>
     </Router>
   );

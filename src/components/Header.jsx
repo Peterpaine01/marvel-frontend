@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
 // Je récupère les props
-const Header = (logo, handleSubmit, handleChange, search) => {
+const Header = ({ logo, handleSubmit, handleChange, search }) => {
+  console.log(logo);
   return (
     <>
       <header>
@@ -19,7 +20,7 @@ const Header = (logo, handleSubmit, handleChange, search) => {
                   name="name"
                   placeholder="Rechercher un personnage"
                   onChange={handleChange}
-                  value={search.name}
+                  value={search}
                 />
               </form>
             </div>

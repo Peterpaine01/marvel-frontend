@@ -1,0 +1,49 @@
+/* GENERALES */
+
+@import url("https://fonts.googleapis.com/css2?family=Advent+Pro:wght@400;700&family=Anton&display=swap");
+
+:root {
+  --font-main: "Advent Pro", sans-serif;
+  --font-title: "Anton", sans-serif;
+}
+
+body p {
+  font-family: var(--font-main);
+  /* color: #00ff7b; */
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+body h1,
+body h2,
+bodyh3 {
+  font-family: var(--font-title);
+}
+
+body h1 {
+  color: #00ff7b;
+  text-align: center;
+  padding: 2rem;
+  font-size: 32px;
+}
+
+.flex-parent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.flex-item {
+  width: calc(100% / 4 - 20px);
+  border-bottom-left-radius: 8px;
+  border-top-right-radius: 16px;
+  border: 2px solid #00ff7b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.flex-item img {
+  width: 100%;
+}

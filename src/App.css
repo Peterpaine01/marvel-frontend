@@ -285,6 +285,7 @@ header {
 .cards-bottom {
   padding: 10px;
   border-top: 6px solid var(--color-red);
+  margin-top: 6px;
 }
 
 .cards-bottom h2 {

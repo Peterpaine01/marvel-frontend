@@ -57,8 +57,8 @@ const Characters = ({
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 10,
-    slidesToScroll: 10,
+    slidesToShow: 6,
+    slidesToScroll: 6,
     initialSlide: 0,
     responsive: [
       {
@@ -93,66 +93,68 @@ const Characters = ({
   ) : (
     <>
       <main className="character-focus">
-        <section className="flex-parent item-relative character">
-          <button
-            className={
-              isFavorite
-                ? "item-absolute btn-favoris favoris"
-                : "item-absolute btn-favoris "
-            }
-            onClick={() => {
-              handleFavorisCharacter(characterData);
-              if (isFavorite) {
-                setIsFavorite(false);
-              } else {
-                setIsFavorite(true);
+        <div className="container">
+          <section className="flex-parent item-relative character">
+            <button
+              className={
+                isFavorite
+                  ? "item-absolute btn-favoris favoris"
+                  : "item-absolute btn-favoris "
               }
-            }}
-          >
-            <i className="fa-solid fa-star"></i>
-          </button>
-          <div className="main-img">
-            <img
-              src={
-                characterData.thumbnail.path +
-                "/portrait_uncanny." +
-                characterData.thumbnail.extension
-              }
-              alt={"personnage Marvel" + characterData.name}
-            />
-          </div>
+              onClick={() => {
+                handleFavorisCharacter(characterData);
+                if (isFavorite) {
+                  setIsFavorite(false);
+                } else {
+                  setIsFavorite(true);
+                }
+              }}
+            >
+              <i className="fa-solid fa-star"></i>
+            </button>
+            <div className="main-img">
+              <img
+                src={
+                  characterData.thumbnail.path +
+                  "/standard_fantastic." +
+                  characterData.thumbnail.extension
+                }
+                alt={"personnage Marvel" + characterData.name}
+              />
+            </div>
 
-          <aside>
-            <h1>{characterData.name}</h1>
-            <h2>Description</h2>
-            {characterData.description.length > 0 ? (
-              <p>{characterData.description}</p>
-            ) : (
-              <p>Ce personnage n'a pas encore de description.</p>
-            )}
-          </aside>
-        </section>
-        <section className="comics-slider">
-          <h2>Retrouvez {characterData.name} dans les comics suivants :</h2>
+            <aside>
+              <h1>{characterData.name}</h1>
 
-          <Slider {...settings}>
-            {comicsData.map((comic) => {
-              return (
-                <article className="slide-comics" key={comic._id}>
-                  <img
-                    src={
-                      comic.thumbnail.path +
-                      "/portrait_uncanny." +
-                      comic.thumbnail.extension
-                    }
-                    alt=""
-                  />
-                  <h3>{comic.title}</h3>
-                </article>
-              );
-            })}
-          </Slider>
-        </section>
+              {characterData.description.length > 0 ? (
+                <p>{characterData.description}</p>
+              ) : (
+                <p>Ce personnage n'a pas encore de description.</p>
+              )}
+            </aside>
+          </section>
+          <section className="comics-slider">
+            <h2>Retrouvez {characterData.name} dans les comics suivants :</h2>
+
+            <Slider {...settings}>
+              {comicsData.map((comic) => {
+                return (
+                  <article className="slide-comics" key={comic._id}>
+                    <img
+                      src={
+                        comic.thumbnail.path +
+                        "/standard_fantastic." +
+                        comic.thumbnail.extension
+                      }
+                      alt=""
+                    />
+                    <h3>{comic.title}</h3>
+                  </article>
+                );
+              })}
+            </Slider>
+          </section>
+        </div>
       </main>
     </>
   );

@@ -114,7 +114,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                 toggleModal();
               }}
             >
-              X
+              <i className="fa-solid fa-xmark"></i>
             </button>
             <Character
               handleFavorisCharacter={handleFavorisCharacter}
@@ -151,7 +151,6 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                   setCharacterId(character._id);
                   setIsFavorite(isFavoris);
                   toggleModal();
-                  // setFavorite(true);
                 }}
               >
                 <button

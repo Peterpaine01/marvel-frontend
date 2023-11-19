@@ -6,29 +6,29 @@ import axios from "axios";
 import Search from "../components/Search";
 
 // Pages
-import Character from "../pages/Character";
+import Comic from "../pages/Comic";
 
-const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
+const Comics = ({ handleFavorisComic, favorisComics }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
   const [limit, setLimit] = useState();
   const [skip, setSkip] = useState();
   const [search, setSearch] = useState("");
-  const [characterId, setCharacterId] = useState("");
+  const [comicId, setComicId] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
 
   //   const navigate = useNavigate();
 
-  const addEllipsis = (text, maxLength) => {
-    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
+  //   const addEllipsis = (text, maxLength) => {
+  //     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  //   };
 
-  const addEllipsisMore = (text, maxLength) => {
-    return text.length > maxLength
-      ? text.slice(0, maxLength) + " (Read more...)"
-      : text;
-  };
+  //   const addEllipsisMore = (text, maxLength) => {
+  //     return text.length > maxLength
+  //       ? text.slice(0, maxLength) + " (Read more...)"
+  //       : text;
+  //   };
 
   const pageNumber = Math.round(count / limit);
   const pagination = [];
@@ -54,7 +54,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://site--marvel-backend--fklc4pfyn242.code.run/characters?name=${search}&skip=${skip}`
+          `https://site--marvel-backend--fklc4pfyn242.code.run/comics?title=${search}&skip=${skip}`
         );
         console.log(response.data);
         setData(response.data);
@@ -70,7 +70,11 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     fetchData();
   }, [search, skip]);
 
-  const favorisCharactersValues = Object.values(favorisCharacters);
+  const favorisComicsValues = [{}];
+
+  if (!favorisComics) {
+    favorisComicsValues = Object.values(favorisComics);
+  }
 
   const modalContainer = document.querySelector(".modal-container");
 
@@ -83,15 +87,15 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
   ) : (
     <main>
       <div className="container">
-        <h1>Personnages</h1>
+        <h1>Comics</h1>
         <section>
-          <Search search={search} setSearch={setSearch} kind={"personnage"} />
+          <Search search={search} setSearch={setSearch} kind={"un comics"} />
         </section>
         <div className="modal-container">
           <div
             className="overlay modal-trigger"
             onClick={() => {
-              setCharacterId("");
+              setComicId("");
               toggleModal();
             }}
           ></div>
@@ -99,41 +103,41 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
             <button
               className="close-modal modal-trigger"
               onClick={() => {
-                setCharacterId("");
+                setComicId("");
                 toggleModal();
               }}
             >
               X
             </button>
-            <Character
-              handleFavorisCharacter={handleFavorisCharacter}
-              id={characterId}
-              favorisCharacters={favorisCharacters}
+            <Comic
+              handleFavorisComic={handleFavorisComic}
+              id={comicId}
+              favorisComics={favorisComics}
               isFavorite={isFavorite}
               setIsFavorite={setIsFavorite}
             />
           </div>
         </div>
         <section>
-          {favorisCharactersValues.map((favori) => {
-            return <p key={favori._id}>{favori.name}</p>;
+          {favorisComicsValues.map((favori) => {
+            return <p key={favori._id}>{favori.title}</p>;
           })}
         </section>
         <section className="flex-parent">
-          {data.results.map((character) => {
+          {data.results.map((comic) => {
             let isFavoris = false;
-            const newFavorisCharacters = [...favorisCharacters];
-            // console.log(newFavorisCharacters);
+            const newFavorisComics = [...favorisComics];
+            // console.log(newFavorisComics);
 
-            for (let i = 0; i < newFavorisCharacters.length; i++) {
-              const elem = newFavorisCharacters[i];
-              if (elem._id === character._id) {
+            for (let i = 0; i < newFavorisComics.length; i++) {
+              const elem = newFavorisComics[i];
+              if (elem._id === comic._id) {
                 isFavoris = true;
               }
             }
 
             return (
-              <article key={character._id} className="flex-item item-relative">
+              <article key={comic._id} className="flex-item item-relative">
                 <button
                   className={
                     isFavoris
@@ -141,7 +145,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                       : "item-absolute btn-favoris "
                   }
                   onClick={() => {
-                    handleFavorisCharacter(character);
+                    handleFavorisComic(comic);
                   }}
                 >
                   <i className="fa-solid fa-star"></i>
@@ -150,7 +154,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                 <div
                   className="modal-btn modal-trigger"
                   onClick={() => {
-                    setCharacterId(character._id);
+                    setComicId(comic._id);
                     setIsFavorite(isFavoris);
                     toggleModal();
                     // setFavorite(true);
@@ -159,15 +163,15 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                   <div className="">
                     <img
                       src={
-                        character.thumbnail.path +
+                        comic.thumbnail.path +
                         "/portrait_uncanny." +
-                        character.thumbnail.extension
+                        comic.thumbnail.extension
                       }
-                      alt={"personnage Marvel" + character.name}
+                      alt={"personnage Marvel" + comic.title}
                     />
                   </div>
-                  <h2>{addEllipsis(character.name, 14)}</h2>
-                  <p>{addEllipsisMore(character.description, 100)}</p>
+                  {/* <h2>{addEllipsis(comic.title, 14)}</h2> */}
+                  {/* <p>{addEllipsisMore(comic.description, 100)}</p> */}
                 </div>
               </article>
             );
@@ -192,4 +196,4 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
   );
 };
 
-export default Characters;
+export default Comics;

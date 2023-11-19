@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 
+// Images
+
 // Je récupère les props
-const Header = ({ logo, handleSubmit, handleChange, search }) => {
-  console.log(logo);
+const Header = ({ logo }) => {
   return (
     <>
       <header>
@@ -12,27 +13,15 @@ const Header = ({ logo, handleSubmit, handleChange, search }) => {
               <img src={logo} alt="" />
             </Link>
 
-            <div className="search">
-              <form onClick={handleSubmit}>
-                <i className="fa-solid fa-magnifying-glass"></i>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Rechercher un personnage"
-                  onChange={handleChange}
-                  value={search}
-                />
-              </form>
-            </div>
-            <nav>
-              <Link className="btn-light" to={`/personnages`}>
+            <nav className="flex-parent">
+              <Link className="btn-light" to={`/`}>
                 Personnages
               </Link>
               <Link className="btn-light" to={`/comics`}>
                 Comics
               </Link>
               <Link className="btn-solid" to={`/favoris`}>
-                Favvoris
+                Favoris
               </Link>
             </nav>
           </div>

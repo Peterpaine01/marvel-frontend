@@ -13,7 +13,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
   const [limit, setLimit] = useState();
-  const [skip, setSkip] = useState();
+  const [skip, setSkip] = useState(0);
   const [search, setSearch] = useState("");
   const [characterId, setCharacterId] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
@@ -45,7 +45,9 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     event.target.className = "current";
     event.target.setAttribute("disabled", "");
     // console.log(value);
-    setSkip(value);
+    const newValue = value - 1;
+    setSkip(newValue * limit);
+
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   };
@@ -70,7 +72,11 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     fetchData();
   }, [search, skip]);
 
-  const favorisCharactersValues = Object.values(favorisCharacters);
+  const favorisCharactersValues = [{}];
+
+  if (!favorisCharacters) {
+    favorisCharactersValues = Object.values(favorisCharacters);
+  }
 
   const modalContainer = document.querySelector(".modal-container");
 
@@ -83,9 +89,14 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
   ) : (
     <main>
       <div className="container">
-        <h1>Personnages</h1>
-        <section>
-          <Search search={search} setSearch={setSearch} kind={"personnage"} />
+        <section className="flex-parent page-title">
+          <h1>Personnages</h1>
+          <Search
+            search={search}
+            setSearch={setSearch}
+            kind={"un personnage"}
+            destination={"/"}
+          />
         </section>
         <div className="modal-container">
           <div
@@ -114,7 +125,7 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
             />
           </div>
         </div>
-        <section>
+        <section className="content">
           {favorisCharactersValues.map((favori) => {
             return <p key={favori._id}>{favori.name}</p>;
           })}
@@ -133,12 +144,21 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
             }
 
             return (
-              <article key={character._id} className="flex-item item-relative">
+              <article
+                key={character._id}
+                className="flex-item item-relative item-click cards modal-btn modal-trigger"
+                onClick={() => {
+                  setCharacterId(character._id);
+                  setIsFavorite(isFavoris);
+                  toggleModal();
+                  // setFavorite(true);
+                }}
+              >
                 <button
                   className={
                     isFavoris
-                      ? "item-absolute btn-favoris favoris"
-                      : "item-absolute btn-favoris "
+                      ? "item-absolute flex-item btn-favoris favoris"
+                      : " item-absolute flex-item btn-favoris "
                   }
                   onClick={() => {
                     handleFavorisCharacter(character);
@@ -146,37 +166,35 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                 >
                   <i className="fa-solid fa-star"></i>
                 </button>
-
-                <div
-                  className="modal-btn modal-trigger"
-                  onClick={() => {
-                    setCharacterId(character._id);
-                    setIsFavorite(isFavoris);
-                    toggleModal();
-                    // setFavorite(true);
-                  }}
-                >
-                  <div className="">
-                    <img
-                      src={
-                        character.thumbnail.path +
-                        "/portrait_uncanny." +
-                        character.thumbnail.extension
-                      }
-                      alt={"personnage Marvel" + character.name}
-                    />
+                <div className="cards-image ">
+                  <img
+                    src={
+                      character.thumbnail.path +
+                      "/portrait_uncanny." +
+                      character.thumbnail.extension
+                    }
+                    alt={"personnage Marvel " + character.name}
+                  />
+                </div>
+                <div className="cards-bottom ">
+                  <div className="cards-title flex-parent item-relative">
+                    <h2 className="flex-item">
+                      {addEllipsis(character.name, 14)}
+                    </h2>
                   </div>
-                  <h2>{addEllipsis(character.name, 14)}</h2>
-                  <p>{addEllipsisMore(character.description, 100)}</p>
+                  {character.description && (
+                    <p>{addEllipsisMore(character.description, 100)}</p>
+                  )}
                 </div>
               </article>
             );
           })}
         </section>
-        <section>
+        <section className="pagination">
           {pagination.map((page) => {
             return (
               <button
+                className={skip === page - 1 / limit && "current"}
                 onClick={(event) => {
                   handlePage(event, page);
                 }}

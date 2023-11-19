@@ -71,7 +71,7 @@ const App = () => {
   };
 
   const handleFavorisComic = (comic) => {
-    // console.log(comic);
+    console.log(comic);
     let isFavoris = null;
     const newFavorisComics = [...favorisComics];
     console.log(newFavorisComics);
@@ -96,7 +96,9 @@ const App = () => {
       console.log(index);
       newFavorisComics.splice(index, 1);
     }
-
+    Cookies.set("favorisComics", JSON.stringify(newFavorisComics), {
+      expires: 15,
+    });
     console.log(newFavorisComics);
     setFavorisComics(JSON.parse(Cookies.get("favorisComics")));
   };
@@ -131,6 +133,8 @@ const App = () => {
               handleFavorisCharacter={handleFavorisCharacter}
               favorisCharacters={favorisCharacters}
               setFavorisCharacters={setFavorisCharacters}
+              favorisComics={favorisComics}
+              handleFavorisComic={handleFavorisComic}
             />
           }
         />

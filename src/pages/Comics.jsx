@@ -5,30 +5,17 @@ import axios from "axios";
 // Components
 import Search from "../components/Search";
 
-// Pages
-import Comic from "../pages/Comic";
-
 const Comics = ({ handleFavorisComic, favorisComics }) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
   const [limit, setLimit] = useState();
-  const [skip, setSkip] = useState();
+  const [skip, setSkip] = useState(0);
   const [search, setSearch] = useState("");
-  const [comicId, setComicId] = useState("");
-  const [isFavorite, setIsFavorite] = useState(false);
 
-  //   const navigate = useNavigate();
-
-  //   const addEllipsis = (text, maxLength) => {
-  //     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  //   };
-
-  //   const addEllipsisMore = (text, maxLength) => {
-  //     return text.length > maxLength
-  //       ? text.slice(0, maxLength) + " (Read more...)"
-  //       : text;
-  //   };
+  const addEllipsis = (text, maxLength) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
 
   const pageNumber = Math.round(count / limit);
   const pagination = [];
@@ -36,19 +23,21 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
     pagination.push(i + 1);
   }
 
-  const handlePage = (event, value) => {
-    const elems = document.querySelector(".current");
-    if (elems !== null) {
-      elems.classList.remove("current");
-      elems.removeAttribute("disabled");
-    }
-    event.target.className = "current";
-    event.target.setAttribute("disabled", "");
-    // console.log(value);
-    setSkip(value);
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  };
+  const currentPage = skip / limit + 1;
+  console.log(currentPage);
+  //   const handlePage = (event, value) => {
+  //     const elems = document.querySelector(".current");
+  //     if (elems !== null) {
+  //       elems.classList.remove("current");
+  //       elems.removeAttribute("disabled");
+  //     }
+  //     event.target.className = "current";
+  //     event.target.setAttribute("disabled", "");
+  //     // console.log(value);
+  //     setSkip(value);
+  //     document.body.scrollTop = 0;
+  //     document.documentElement.scrollTop = 0;
+  //   };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,49 +65,22 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
     favorisComicsValues = Object.values(favorisComics);
   }
 
-  const modalContainer = document.querySelector(".modal-container");
-
-  const toggleModal = () => {
-    modalContainer.classList.toggle("active");
-  };
-
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <main>
       <div className="container">
-        <h1>Comics</h1>
-        <section>
-          <Search search={search} setSearch={setSearch} kind={"un comics"} />
+        <section className="flex-parent page-title">
+          <h1>Comics</h1>
+          <Search
+            search={search}
+            setSearch={setSearch}
+            kind={"un comics"}
+            destination={"/comics"}
+          />
         </section>
-        <div className="modal-container">
-          <div
-            className="overlay modal-trigger"
-            onClick={() => {
-              setComicId("");
-              toggleModal();
-            }}
-          ></div>
-          <div className="modal">
-            <button
-              className="close-modal modal-trigger"
-              onClick={() => {
-                setComicId("");
-                toggleModal();
-              }}
-            >
-              X
-            </button>
-            <Comic
-              handleFavorisComic={handleFavorisComic}
-              id={comicId}
-              favorisComics={favorisComics}
-              isFavorite={isFavorite}
-              setIsFavorite={setIsFavorite}
-            />
-          </div>
-        </div>
-        <section>
+
+        <section className="content">
           {favorisComicsValues.map((favori) => {
             return <p key={favori._id}>{favori.title}</p>;
           })}
@@ -137,12 +99,15 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
             }
 
             return (
-              <article key={comic._id} className="flex-item item-relative">
+              <article
+                key={comic._id}
+                className="flex-item  item-relative cards"
+              >
                 <button
                   className={
                     isFavoris
-                      ? "item-absolute btn-favoris favoris"
-                      : "item-absolute btn-favoris "
+                      ? "item-absolute flex-item btn-favoris favoris"
+                      : "item-absolute flex-item btn-favoris "
                   }
                   onClick={() => {
                     handleFavorisComic(comic);
@@ -150,46 +115,68 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
                 >
                   <i className="fa-solid fa-star"></i>
                 </button>
-
-                <div
-                  className="modal-btn modal-trigger"
-                  onClick={() => {
-                    setComicId(comic._id);
-                    setIsFavorite(isFavoris);
-                    toggleModal();
-                    // setFavorite(true);
-                  }}
-                >
-                  <div className="">
-                    <img
-                      src={
-                        comic.thumbnail.path +
-                        "/portrait_uncanny." +
-                        comic.thumbnail.extension
-                      }
-                      alt={"personnage Marvel" + comic.title}
-                    />
+                <div className="cards-image ">
+                  <img
+                    src={
+                      comic.thumbnail.path +
+                      "/portrait_uncanny." +
+                      comic.thumbnail.extension
+                    }
+                    alt={"comics Marvel " + comic.title}
+                  />
+                </div>
+                <div className="cards-bottom ">
+                  <div className="cards-title flex-parent item-relative">
+                    <h2 className="flex-item ">
+                      {addEllipsis(comic.title, 28)}
+                    </h2>
                   </div>
-                  {/* <h2>{addEllipsis(comic.title, 14)}</h2> */}
-                  {/* <p>{addEllipsisMore(comic.description, 100)}</p> */}
+                  {comic.description && <p>{comic.description}</p>}
                 </div>
               </article>
             );
           })}
         </section>
-        <section>
-          {pagination.map((page) => {
-            return (
-              <button
-                onClick={(event) => {
-                  handlePage(event, page);
-                }}
-                key={page}
-              >
-                {page}
-              </button>
-            );
-          })}
+        <section className="pagination">
+          <button
+            onClick={() => {
+              setSkip(0);
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }}
+          >
+            first page
+          </button>
+          <button
+            onClick={() => {
+              setSkip(skip + 100);
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }}
+          >
+            next page
+          </button>
+          <p>
+            <span>{currentPage}</span> / <span>{pageNumber}</span>
+          </p>
+          <button
+            onClick={() => {
+              setSkip(skip - 100);
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }}
+          >
+            previous page
+          </button>
+          <button
+            onClick={() => {
+              setSkip(pageNumber * limit - 100);
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }}
+          >
+            last page
+          </button>
         </section>
       </div>
     </main>

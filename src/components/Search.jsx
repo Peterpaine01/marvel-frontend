@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 // Je récupère les props
-const Search = ({ search, setSearch, kind }) => {
+const Search = ({ search, setSearch, kind, destination }) => {
   const [searchReq, setSearchReq] = useState("");
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const Search = ({ search, setSearch, kind }) => {
 
     setSearch(searchReq);
     console.log(search);
-    navigate("/");
+    navigate({ destination });
     setSearchReq("");
   };
 
@@ -29,7 +29,7 @@ const Search = ({ search, setSearch, kind }) => {
           <input
             type="text"
             name="name"
-            placeholder={`Rechercher des ${kind}`}
+            placeholder={`Rechercher ${kind}`}
             onChange={handleChange}
             value={searchReq}
           />

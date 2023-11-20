@@ -59,12 +59,6 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
     fetchData();
   }, [search, skip]);
 
-  const favorisComicsValues = [{}];
-
-  if (!favorisComics) {
-    favorisComicsValues = Object.values(favorisComics);
-  }
-
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -78,12 +72,6 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
             kind={"un comics"}
             destination={"/comics"}
           />
-        </section>
-
-        <section className="content">
-          {favorisComicsValues.map((favori) => {
-            return <p key={favori._id}>{favori.title}</p>;
-          })}
         </section>
         <section className="flex-parent">
           {data.results.map((comic) => {
@@ -131,7 +119,7 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
                       {addEllipsis(comic.title, 28)}
                     </h2>
                   </div>
-                  {comic.description && <p>{comic.description}</p>}
+                  {/* {comic.description && <p>{comic.description}</p>} */}
                 </div>
               </article>
             );

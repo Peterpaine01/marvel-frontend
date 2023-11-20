@@ -52,7 +52,7 @@ body h1 {
 
 body h2 {
   font-weight: 600;
-  color: var(--color-red);
+  color: var(--color-grey);
   font-size: 24px;
 }
 
@@ -215,8 +215,8 @@ header {
 
 .modal {
   opacity: 0;
-  width: 95%;
-  height: calc(95vh - 80px);
+  width: 100vw;
+  height: 100vh;
   overflow: scroll;
   padding: 30px;
   min-width: 300px;
@@ -225,13 +225,13 @@ header {
   position: absolute;
   top: 40%;
   left: 50%;
-  transform: translate(-50%, 40px);
+  transform: translate(-50%, 0);
   transition: opacity 0.4s ease-out, transform 0.4s ease-out;
 }
 
 .modal-container.active .modal {
   opacity: 1;
-  transform: translate(-50%, 80px);
+  transform: translate(-50%, 0);
   transition: opacity 0.4s 0.2 ease-out, transform 0.4s 0.2 ease-out;
 }
 
@@ -261,8 +261,18 @@ header {
   flex-wrap: wrap;
 }
 
-.cards:hover {
-  transform: translate(0, -15px);
+.cards:hover .cards-bottom {
+  background-color: var(--color-red);
+  transition: all 0.2s ease-out;
+}
+
+.cards:hover img {
+  scale: 1.1;
+  transition: all 0.2s ease-out;
+}
+
+.cards:hover h2 {
+  color: white;
   transition: all 0.2s ease-out;
 }
 
@@ -280,12 +290,13 @@ header {
 .cards-image {
   height: 381px;
   margin-bottom: 1px;
+  overflow: hidden;
+  display: flex;
 }
 
 .cards-bottom {
   padding: 10px;
   border-top: 6px solid var(--color-red);
-  margin-top: 6px;
 }
 
 .cards-bottom h2 {

@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
+// import Cookies from "js-cookie";
 
 // Pages
 import Character from "../pages/Character";
 
 const Favoris = ({
   handleFavorisCharacter,
+  handleFavorisComic,
   favorisCharacters,
   favorisComics,
-  handleFavorisComic,
 }) => {
-  const [dataCharacters, setDataCharacters] = useState();
-  const [dataComics, setDataComics] = useState();
+  //   const [dataCharacters, setDataCharacters] = useState();
+  //   const [dataComics, setDataComics] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   const [characterId, setCharacterId] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const favoriCharacterValues = Object.values(favorisCharacters);
-        const favoriComicValues = Object.values(favorisComics);
-
-        setDataCharacters(favoriCharacterValues);
-        setDataComics(favoriComicValues);
-        setIsLoading(false);
-        console.log(dataCharacters);
-      } catch (error) {
-        console.log(error.response.dataCharacters);
-      }
-    };
-    fetchData();
-  }, []);
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         // setDataCharacters(favoriCharacterValues);
+  //         // setDataComics(favoriComicValues);
+  //         setIsLoading(false);
+  //       } catch (error) {
+  //         console.log(error.response.dataCharacters);
+  //       }
+  //     };
+  //     fetchData();
+  //   }, []);
 
   const modalContainer = document.querySelector(".modal-container");
 
@@ -69,10 +66,10 @@ const Favoris = ({
         </div>
         <section className="">
           <h2>Personnages</h2>
-          <div className="gallery flex-parent">
+          {/* <div className="gallery flex-parent">
             {dataCharacters.map((favori) => {
               let isFavoris = false;
-              const newFavorisCharacters = [...favorisCharacters];
+              const newFavorisCharacters = [...dataCharacters];
               console.log(newFavorisCharacters);
 
               for (let i = 0; i < newFavorisCharacters.length; i++) {
@@ -111,14 +108,14 @@ const Favoris = ({
                 </article>
               );
             })}
-          </div>
+          </div> */}
         </section>
         <section className="">
           <h2>Comics</h2>
-          <div className="gallery flex-parent">
+          {/* <div className="gallery flex-parent">
             {dataComics.map((favori) => {
               let isFavoris = false;
-              const newFavorisComics = [...favorisComics];
+              const newFavorisComics = [...dataComics];
               console.log(newFavorisComics);
 
               for (let i = 0; i < newFavorisComics.length; i++) {
@@ -157,7 +154,7 @@ const Favoris = ({
                 </article>
               );
             })}
-          </div>
+          </div> */}
         </section>
       </div>
     </main>

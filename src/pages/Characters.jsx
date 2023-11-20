@@ -72,12 +72,6 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     fetchData();
   }, [search, skip]);
 
-  const favorisCharactersValues = [{}];
-
-  if (!favorisCharacters) {
-    favorisCharactersValues = Object.values(favorisCharacters);
-  }
-
   const modalContainer = document.querySelector(".modal-container");
 
   const toggleModal = () => {
@@ -125,33 +119,23 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
             />
           </div>
         </div>
-        <section className="content">
-          {favorisCharactersValues.map((favori) => {
-            return <p key={favori._id}>{favori.name}</p>;
-          })}
-        </section>
         <section className="flex-parent">
           {data.results.map((character) => {
             let isFavoris = false;
-            const newFavorisCharacters = [...favorisCharacters];
-            // console.log(newFavorisCharacters);
+            // const newFavorisCharacters = [...favorisCharacters];
+            // // console.log(newFavorisCharacters);
 
-            for (let i = 0; i < newFavorisCharacters.length; i++) {
-              const elem = newFavorisCharacters[i];
-              if (elem._id === character._id) {
-                isFavoris = true;
-              }
-            }
+            // for (let i = 0; i < newFavorisCharacters.length; i++) {
+            //   const elem = newFavorisCharacters[i];
+            //   if (elem._id === character._id) {
+            //     isFavoris = true;
+            //   }
+            // }
 
             return (
               <article
                 key={character._id}
-                className="flex-item item-relative item-click cards modal-btn modal-trigger"
-                onClick={() => {
-                  setCharacterId(character._id);
-                  setIsFavorite(isFavoris);
-                  toggleModal();
-                }}
+                className="flex-item item-relative cards "
               >
                 <button
                   className={
@@ -165,25 +149,31 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
                 >
                   <i className="fa-solid fa-star"></i>
                 </button>
-                <div className="cards-image ">
-                  <img
-                    src={
-                      character.thumbnail.path +
-                      "/portrait_uncanny." +
-                      character.thumbnail.extension
-                    }
-                    alt={"personnage Marvel " + character.name}
-                  />
-                </div>
-                <div className="cards-bottom ">
-                  <div className="cards-title flex-parent item-relative">
-                    <h2 className="flex-item">
-                      {addEllipsis(character.name, 14)}
-                    </h2>
+                <div
+                  className="modal-btn modal-trigger item-click "
+                  onClick={() => {
+                    setCharacterId(character._id);
+                    setIsFavorite(isFavoris);
+                    toggleModal();
+                  }}
+                >
+                  <div className="cards-image ">
+                    <img
+                      src={
+                        character.thumbnail.path +
+                        "/portrait_uncanny." +
+                        character.thumbnail.extension
+                      }
+                      alt={"personnage Marvel " + character.name}
+                    />
                   </div>
-                  {character.description && (
-                    <p>{addEllipsisMore(character.description, 100)}</p>
-                  )}
+                  <div className="cards-bottom ">
+                    <div className="cards-title flex-parent item-relative">
+                      <h2 className="flex-item">
+                        {addEllipsis(character.name, 14)}
+                      </h2>
+                    </div>
+                  </div>
                 </div>
               </article>
             );

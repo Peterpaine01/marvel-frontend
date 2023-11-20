@@ -17,90 +17,76 @@ import Header from "./components/Header";
 
 const App = () => {
   const [favorisCharacters, setFavorisCharacters] = useState(
-    JSON.parse(Cookies.get("favorisCharacters"))
+    Cookies.get("favorisCharacters") || null
   );
+  // console.log(favorisCharacters);
   const [favorisComics, setFavorisComics] = useState(
-    JSON.parse(Cookies.get("favorisComics"))
+    Cookies.get("favorisComics") || null
   );
-
-  const initialFavoris = [];
-  if (!Cookies.get("favorisCharacters")) {
-    Cookies.set("favorisCharacters", JSON.stringify(initialFavoris), {
-      expires: 15,
-    });
-  }
-
-  if (!Cookies.get("favorisComics")) {
-    Cookies.set("favorisComics", JSON.stringify(initialFavoris), {
-      expires: 15,
-    });
-  }
 
   // Fonction Favoris
   const handleFavorisCharacter = (character) => {
     // console.log(character);
-    let isFavoris = null;
-    const newFavorisCharacters = [...favorisCharacters];
-    console.log(newFavorisCharacters);
-
-    for (let i = 0; i < newFavorisCharacters.length; i++) {
-      const elem = newFavorisCharacters[i];
-      if (elem._id === character._id) {
-        isFavoris = elem;
-        console.log(isFavoris);
-      }
-    }
-
-    if (!isFavoris) {
-      console.log("pas dans les favoris");
-      const characterToPush = {
-        ...character,
-      };
-      newFavorisCharacters.push(characterToPush);
-    } else {
-      console.log("est déjà dans les favoris");
-      const index = newFavorisCharacters.indexOf(isFavoris);
-      console.log(index);
-      newFavorisCharacters.splice(index, 1);
-    }
-    Cookies.set("favorisCharacters", JSON.stringify(newFavorisCharacters), {
-      expires: 15,
-    });
-    console.log(newFavorisCharacters);
-    setFavorisCharacters(JSON.parse(Cookies.get("favorisCharacters")));
+    // if (favorisCharacters) {
+    //   let isFavoris = null;
+    //   const newFavorisCharacters = [...favorisCharacters];
+    //   console.log(newFavorisCharacters);
+    //   for (let i = 0; i < newFavorisCharacters.length; i++) {
+    //     const elem = newFavorisCharacters[i];
+    //     if (elem._id === character._id) {
+    //       isFavoris = elem._id;
+    //       console.log(isFavoris);
+    //     }
+    //   }
+    //   if (!isFavoris) {
+    //     console.log("pas dans les favoris");
+    //     newFavorisCharacters.push(isFavoris);
+    //   } else {
+    //     console.log("est déjà dans les favoris");
+    //     const index = newFavorisCharacters.indexOf(isFavoris);
+    //     console.log(index);
+    //     newFavorisCharacters.splice(index, 1);
+    //   }
+    //   Cookies.set("favorisCharacters", newFavorisCharacters, {
+    //     expires: 15,
+    //   });
+    //   // console.log(newFavorisCharacters);
+    //   setFavorisCharacters(Cookies.get("favorisCharacters"));
+    // } else {
+    //   Cookies.remove("favorisCharacters");
+    //   setFavorisCharacters(null);
+    // }
   };
 
   const handleFavorisComic = (comic) => {
-    console.log(comic);
-    let isFavoris = null;
-    const newFavorisComics = [...favorisComics];
-    console.log(newFavorisComics);
-
-    for (let i = 0; i < newFavorisComics.length; i++) {
-      const elem = newFavorisComics[i];
-      if (elem._id === comic._id) {
-        isFavoris = elem;
-        console.log(isFavoris);
-      }
-    }
-
-    if (!isFavoris) {
-      console.log("pas dans les favoris");
-      const comicToPush = {
-        ...comic,
-      };
-      newFavorisComics.push(comicToPush);
-    } else {
-      console.log("est déjà dans les favoris");
-      const index = newFavorisComics.indexOf(isFavoris);
-      console.log(index);
-      newFavorisComics.splice(index, 1);
-    }
-    Cookies.set("favorisComics", JSON.stringify(newFavorisComics), {
-      expires: 15,
-    });
-    console.log(newFavorisComics);
-    setFavorisComics(JSON.parse(Cookies.get("favorisComics")));
+    // console.log(comic);
+    // let isFavoris = null;
+    // const newFavorisComics = [...favorisComics];
+    // console.log(newFavorisComics);
+    // for (let i = 0; i < newFavorisComics.length; i++) {
+    //   const elem = newFavorisComics[i];
+    //   if (elem._id === comic._id) {
+    //     isFavoris = elem;
+    //     console.log(isFavoris);
+    //   }
+    // }
+    // if (!isFavoris) {
+    //   console.log("pas dans les favoris");
+    //   const comicToPush = {
+    //     ...comic,
+    //   };
+    //   newFavorisComics.push(comicToPush);
+    // } else {
+    //   console.log("est déjà dans les favoris");
+    //   const index = newFavorisComics.indexOf(isFavoris);
+    //   console.log(index);
+    //   newFavorisComics.splice(index, 1);
+    // }
+    // Cookies.set("favorisComics", JSON.stringify(newFavorisComics), {
+    //   expires: 15,
+    // });
+    // console.log(newFavorisComics);
+    // setFavorisComics(JSON.parse(Cookies.get("favorisComics")));
   };
 
   return (

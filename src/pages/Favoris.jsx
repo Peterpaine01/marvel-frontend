@@ -5,12 +5,7 @@ import { useEffect, useState } from "react";
 // Pages
 import Character from "../pages/Character";
 
-const Favoris = ({
-  handleFavorisCharacter,
-  handleFavorisComic,
-  favorisCharacters,
-  favorisComics,
-}) => {
+const Favoris = ({}) => {
   //   const [dataCharacters, setDataCharacters] = useState();
   //   const [dataComics, setDataComics] = useState();
   const [isLoading, setIsLoading] = useState(true);

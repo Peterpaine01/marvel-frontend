@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
-// import Cookies from "js-cookie";
-// useParams
+import Cookies from "js-cookie";
 
-const Characters = ({
-  id,
-  favorisCharacters,
-  handleFavorisCharacter,
-  isFavorite,
-  setIsFavorite,
-}) => {
+const Characters = () => {
+  const params = useParams();
+  const id = params.id;
+
   const [isLoading, setIsLoading] = useState(true);
   const [characterData, setCharacterData] = useState({});
   const [comicsData, setComicsData] = useState([]);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [update, setUpdate] = useState(false);
+  const [herosFavorites, setHerosFavorites] = useState([]);
 
   useEffect(() => {
     if (id) {
@@ -52,6 +53,46 @@ const Characters = ({
       fetchCharacterData();
     }
   }, [id]);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get(
+            `https://site--marvel-backend--fklc4pfyn242.code.run/`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data.user);
+          setHerosFavorites(response.data.user.favorites.favoritesHero);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      setIsAuthenticated(true);
+      fetchUser();
+    }
+  }, [isAuthenticated, update]);
+
+  console.log(user);
+
+  const updateFavorite = async (id, method) => {
+    try {
+      const token = Cookies.get("token");
+      await axios({
+        method: "put",
+        url: `https://site--marvel-backend--fklc4pfyn242.code.run/update/heros/${id}?method=${method}`,
+        headers: { Authorization: "Bearer " + token },
+      });
+      setUpdate(!update);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const settings = {
     dots: true,
@@ -95,23 +136,27 @@ const Characters = ({
       <main className="character-focus">
         <div className="container">
           <section className="flex-parent item-relative character">
-            <button
-              className={
-                isFavorite
-                  ? "item-absolute btn-favoris favoris"
-                  : "item-absolute btn-favoris "
-              }
-              onClick={() => {
-                handleFavorisCharacter(characterData);
-                if (isFavorite) {
-                  setIsFavorite(false);
-                } else {
-                  setIsFavorite(true);
-                }
-              }}
-            >
-              <i className="fa-solid fa-star"></i>
-            </button>
+            {user ? (
+              herosFavorites.includes(id) ? (
+                <button
+                  className=" item-absolute flex-item btn-favoris favoris"
+                  onClick={() => updateFavorite(id, "delete")}
+                >
+                  <i className="fa-solid fa-star"></i>
+                </button>
+              ) : (
+                <button
+                  className=" item-absolute flex-item btn-favoris "
+                  onClick={() => updateFavorite(id, "add")}
+                >
+                  <i className="fa-solid fa-star"></i>
+                </button>
+              )
+            ) : (
+              <p className="not-co">
+                Connectez-vous pour ajouter ceci à vos favoris
+              </p>
+            )}
             <div className="main-img">
               <img
                 src={

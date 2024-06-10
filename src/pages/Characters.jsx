@@ -1,33 +1,31 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 // Components
 import Search from "../components/Search";
 
 // Pages
-import Character from "../pages/Character";
+// import Character from "../pages/Character";
 
-const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
+const Characters = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
   const [limit, setLimit] = useState();
   const [skip, setSkip] = useState(0);
   const [search, setSearch] = useState("");
-  const [characterId, setCharacterId] = useState("");
-  const [isFavorite, setIsFavorite] = useState(false);
 
-  //   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
+  const [update, setUpdate] = useState(false);
+  const [herosFavorites, setHerosFavorites] = useState([]);
+
+  const navigate = useNavigate();
 
   const addEllipsis = (text, maxLength) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-  };
-
-  const addEllipsisMore = (text, maxLength) => {
-    return text.length > maxLength
-      ? text.slice(0, maxLength) + " (Read more...)"
-      : text;
   };
 
   const pageNumber = Math.round(count / limit);
@@ -44,7 +42,6 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     }
     event.target.className = "current";
     event.target.setAttribute("disabled", "");
-    // console.log(value);
     const newValue = value - 1;
     setSkip(newValue * limit);
 
@@ -72,10 +69,44 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
     fetchData();
   }, [search, skip]);
 
-  const modalContainer = document.querySelector(".modal-container");
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get(
+            `https://site--marvel-backend--fklc4pfyn242.code.run/`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data.user);
+          setHerosFavorites(response.data.user.favorites.favoritesHero);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      setIsAuthenticated(true);
+      fetchUser();
+    }
+  }, [isAuthenticated, update]);
 
-  const toggleModal = () => {
-    modalContainer.classList.toggle("active");
+  console.log(user);
+
+  const updateFavorite = async (id, method) => {
+    try {
+      const token = Cookies.get("token");
+      await axios({
+        method: "put",
+        url: `https://site--marvel-backend--fklc4pfyn242.code.run/update/heros/${id}?method=${method}`,
+        headers: { Authorization: "Bearer " + token },
+      });
+      setUpdate(!update);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return isLoading ? (
@@ -92,69 +123,46 @@ const Characters = ({ handleFavorisCharacter, favorisCharacters }) => {
             destination={"/"}
           />
         </section>
-        <div className="modal-container">
-          <div
-            className="overlay modal-trigger"
-            onClick={() => {
-              setCharacterId("");
-              toggleModal();
-            }}
-          ></div>
-          <div className="modal">
-            <button
-              className="close-modal modal-trigger"
-              onClick={() => {
-                setCharacterId("");
-                toggleModal();
-              }}
-            >
-              <i className="fa-solid fa-xmark"></i>
-            </button>
-            <Character
-              handleFavorisCharacter={handleFavorisCharacter}
-              id={characterId}
-              favorisCharacters={favorisCharacters}
-              isFavorite={isFavorite}
-              setIsFavorite={setIsFavorite}
-            />
-          </div>
-        </div>
+
         <section className="flex-parent">
           {data.results.map((character) => {
-            let isFavoris = false;
-            // const newFavorisCharacters = [...favorisCharacters];
-            // // console.log(newFavorisCharacters);
-
-            // for (let i = 0; i < newFavorisCharacters.length; i++) {
-            //   const elem = newFavorisCharacters[i];
-            //   if (elem._id === character._id) {
-            //     isFavoris = true;
-            //   }
-            // }
-
             return (
               <article
                 key={character._id}
                 className="flex-item item-relative cards "
               >
-                <button
-                  className={
-                    isFavoris
-                      ? "item-absolute flex-item btn-favoris favoris"
-                      : " item-absolute flex-item btn-favoris "
-                  }
-                  onClick={() => {
-                    handleFavorisCharacter(character);
-                  }}
+                {/* <button
+                  className=" item-absolute flex-item btn-favoris "
+                  onClick={() => {}}
                 >
                   <i className="fa-solid fa-star"></i>
-                </button>
+                </button> */}
+                {user ? (
+                  herosFavorites.includes(character._id) ? (
+                    <button
+                      className=" item-absolute flex-item btn-favoris favoris"
+                      onClick={() => updateFavorite(character._id, "delete")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  ) : (
+                    <button
+                      className=" item-absolute flex-item btn-favoris "
+                      onClick={() => updateFavorite(character._id, "add")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  )
+                ) : (
+                  <p className="not-co">
+                    Connectez-vous pour ajouter ceci à vos favoris
+                  </p>
+                )}
                 <div
                   className="modal-btn modal-trigger item-click "
                   onClick={() => {
-                    setCharacterId(character._id);
-                    setIsFavorite(isFavoris);
-                    toggleModal();
+                    // setCharacterId(character._id);
+                    navigate(`/character/${character._id}`);
                   }}
                 >
                   <div className="cards-image ">

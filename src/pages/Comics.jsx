@@ -5,7 +5,7 @@ import axios from "axios";
 // Components
 import Search from "../components/Search";
 
-const Comics = ({ handleFavorisComic, favorisComics }) => {
+const Comics = ({}) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
@@ -25,19 +25,6 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
 
   const currentPage = skip / limit + 1;
   console.log(currentPage);
-  //   const handlePage = (event, value) => {
-  //     const elems = document.querySelector(".current");
-  //     if (elems !== null) {
-  //       elems.classList.remove("current");
-  //       elems.removeAttribute("disabled");
-  //     }
-  //     event.target.className = "current";
-  //     event.target.setAttribute("disabled", "");
-  //     // console.log(value);
-  //     setSkip(value);
-  //     document.body.scrollTop = 0;
-  //     document.documentElement.scrollTop = 0;
-  //   };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,30 +62,15 @@ const Comics = ({ handleFavorisComic, favorisComics }) => {
         </section>
         <section className="flex-parent">
           {data.results.map((comic) => {
-            let isFavoris = false;
-            const newFavorisComics = [...favorisComics];
-            // console.log(newFavorisComics);
-
-            for (let i = 0; i < newFavorisComics.length; i++) {
-              const elem = newFavorisComics[i];
-              if (elem._id === comic._id) {
-                isFavoris = true;
-              }
-            }
-
             return (
               <article
                 key={comic._id}
                 className="flex-item  item-relative cards"
               >
                 <button
-                  className={
-                    isFavoris
-                      ? "item-absolute flex-item btn-favoris favoris"
-                      : "item-absolute flex-item btn-favoris "
-                  }
+                  className="item-absolute flex-item btn-favoris"
                   onClick={() => {
-                    handleFavorisComic(comic);
+                    // handleFavorisComic(comic);
                   }}
                 >
                   <i className="fa-solid fa-star"></i>

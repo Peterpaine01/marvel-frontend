@@ -1,127 +1,76 @@
-// import { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 // Images
 import logo from "./assets/img/Marvel_Logo.png";
 
 // Pages
+import Home from "./pages/Home";
 import Characters from "./pages/Characters";
+import Character from "./pages/Character";
 import Comics from "./pages/Comics";
 import Favoris from "./pages/Favoris";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 // Components
 import Header from "./components/Header";
 
 const App = () => {
-  const [favorisCharacters, setFavorisCharacters] = useState(
-    Cookies.get("favorisCharacters") || null
+  // State dans lequel je stocke le token. Sa valeur de base sera :
+  // - Si je trouve un cookie token, ce cookie
+  // - Sinon, null
+  const [token, setToken] = useState(
+    Cookies.get("token") || null
+    // Cookies.get("token") ? Cookies.get("token") : null
   );
-  // console.log(favorisCharacters);
-  const [favorisComics, setFavorisComics] = useState(
-    Cookies.get("favorisComics") || null
+  const [idUser, setIdUser] = useState(
+    Cookies.get("idUser") || null
+    // Cookies.get("token") ? Cookies.get("token") : null
   );
 
-  // Fonction Favoris
-  const handleFavorisCharacter = (character) => {
-    // console.log(character);
-    // if (favorisCharacters) {
-    //   let isFavoris = null;
-    //   const newFavorisCharacters = [...favorisCharacters];
-    //   console.log(newFavorisCharacters);
-    //   for (let i = 0; i < newFavorisCharacters.length; i++) {
-    //     const elem = newFavorisCharacters[i];
-    //     if (elem._id === character._id) {
-    //       isFavoris = elem._id;
-    //       console.log(isFavoris);
-    //     }
-    //   }
-    //   if (!isFavoris) {
-    //     console.log("pas dans les favoris");
-    //     newFavorisCharacters.push(isFavoris);
-    //   } else {
-    //     console.log("est déjà dans les favoris");
-    //     const index = newFavorisCharacters.indexOf(isFavoris);
-    //     console.log(index);
-    //     newFavorisCharacters.splice(index, 1);
-    //   }
-    //   Cookies.set("favorisCharacters", newFavorisCharacters, {
-    //     expires: 15,
-    //   });
-    //   // console.log(newFavorisCharacters);
-    //   setFavorisCharacters(Cookies.get("favorisCharacters"));
-    // } else {
-    //   Cookies.remove("favorisCharacters");
-    //   setFavorisCharacters(null);
-    // }
-  };
-
-  const handleFavorisComic = (comic) => {
-    // console.log(comic);
-    // let isFavoris = null;
-    // const newFavorisComics = [...favorisComics];
-    // console.log(newFavorisComics);
-    // for (let i = 0; i < newFavorisComics.length; i++) {
-    //   const elem = newFavorisComics[i];
-    //   if (elem._id === comic._id) {
-    //     isFavoris = elem;
-    //     console.log(isFavoris);
-    //   }
-    // }
-    // if (!isFavoris) {
-    //   console.log("pas dans les favoris");
-    //   const comicToPush = {
-    //     ...comic,
-    //   };
-    //   newFavorisComics.push(comicToPush);
-    // } else {
-    //   console.log("est déjà dans les favoris");
-    //   const index = newFavorisComics.indexOf(isFavoris);
-    //   console.log(index);
-    //   newFavorisComics.splice(index, 1);
-    // }
-    // Cookies.set("favorisComics", JSON.stringify(newFavorisComics), {
-    //   expires: 15,
-    // });
-    // console.log(newFavorisComics);
-    // setFavorisComics(JSON.parse(Cookies.get("favorisComics")));
+  // Cette fonction permet de stocker le token dans le state et dans les cookies ou supprimer le token dans le state et dans les cookies
+  const handleToken = (token, idUser) => {
+    if (token) {
+      Cookies.set("token", token, { expires: 15 });
+      Cookies.set("idUser", idUser, { expires: 15 });
+      setToken(token);
+      setIdUser(idUser);
+    } else {
+      Cookies.remove("token");
+      Cookies.remove("idUser");
+      setToken(null);
+      setIdUser(null);
+    }
   };
 
   return (
     <Router>
-      <Header logo={logo} />
+      <Header
+        logo={logo}
+        token={token}
+        idUser={idUser}
+        handleToken={handleToken}
+      />
       <Routes>
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Home />} />
+        <Route path="/characters" element={<Characters />} />
+        <Route path="/character/:id" element={<Character />} />
+        <Route path="/comics" element={<Comics />} />
+        <Route path="/favoris" element={<Favoris />} />
         <Route
-          path="/"
+          path="/signup"
           element={
-            <Characters
-              handleFavorisCharacter={handleFavorisCharacter}
-              favorisCharacters={favorisCharacters}
-            />
+            <Signup token={token} idUser={idUser} handleToken={handleToken} />
           }
         />
         <Route
-          path="/comics"
+          path="/login"
           element={
-            <Comics
-              handleFavorisComic={handleFavorisComic}
-              favorisComics={favorisComics}
-            />
-          }
-        />
-        <Route
-          path="/favoris"
-          element={
-            <Favoris
-              handleFavorisCharacter={handleFavorisCharacter}
-              favorisCharacters={favorisCharacters}
-              setFavorisCharacters={setFavorisCharacters}
-              favorisComics={favorisComics}
-              handleFavorisComic={handleFavorisComic}
-            />
+            <Login token={token} idUser={idUser} handleToken={handleToken} />
           }
         />
       </Routes>

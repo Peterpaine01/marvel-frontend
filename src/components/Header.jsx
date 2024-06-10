@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // Images
 
 // Je récupère les props
-const Header = ({ logo }) => {
+const Header = ({ logo, token, handleToken }) => {
   return (
     <>
       <header>
@@ -14,15 +14,45 @@ const Header = ({ logo }) => {
             </Link>
 
             <nav className="flex-parent">
-              <Link className="btn-light" to={`/`}>
+              <Link className="btn-light" to={`/characters`}>
                 Personnages
               </Link>
               <Link className="btn-light" to={`/comics`}>
                 Comics
               </Link>
-              <Link className="btn-solid" to={`/favoris`}>
-                Favoris
-              </Link>
+              {token ? (
+                <Link className="btn-solid" to={`/favoris`}>
+                  Favoris
+                </Link>
+              ) : (
+                <>
+                  <Link className="btn-light" to={`/login`}>
+                    Favoris
+                  </Link>
+                </>
+              )}
+              {/* Si token existe, c'est que je suis connecté, j'affiche le bouton déconnexion, sinon j'affiche les 2 autres boutons */}
+
+              {token ? (
+                <Link
+                  className="btn-red"
+                  onClick={() => {
+                    // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
+                    handleToken(null);
+                  }}
+                >
+                  Se déconnecter
+                </Link>
+              ) : (
+                <>
+                  <Link className="btn-light" to={`/signup`}>
+                    S'inscrire
+                  </Link>
+                  <Link className="btn-light" to={`/login`}>
+                    Se connecter
+                  </Link>
+                </>
+              )}
             </nav>
           </div>
         </div>

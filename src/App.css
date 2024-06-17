@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Exo+2:wght@400;600;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
   --color-labor: black;
@@ -12,7 +13,7 @@
   --color-black: black;
   --color-grey-light: #eeeeee;
   --color-grey: #969696;
-  --font-main: "Fjalla One", sans-serif;
+  --font-main: "Roboto", sans-serif;
   --font-title: "Fjalla One", sans-serif;
   --color-secondary: #071c2d;
 }
@@ -41,7 +42,7 @@ body h1,
 body h2,
 body h3 {
   font-family: var(--font-title);
-  color: black;
+  color: white;
   font-weight: 600;
 }
 
@@ -264,7 +265,7 @@ header {
   transition: all 0.2s;
   width: calc(100% / 3 - 70px);
   background-color: var(--color-red);
-  transition: all 0.4s ease-out;
+  transition: all 0.4s ease-in-out;
   justify-content: space-between;
   flex-wrap: wrap;
   display: flex;
@@ -272,14 +273,22 @@ header {
   border-radius: 40px;
 }
 
-.cards:hover .cards-bottom {
-  background-color: var(--color-red);
-  transition: all 0.2s ease-out;
+.detail-item .cards {
+  width: 265px;
 }
 
-.cards:hover img {
+.cards:hover .cards-bottom {
+  background-color: var(--color-red);
+  transition: all 0.2s ease-in-out;
+}
+
+.cards .clickable-img {
+  transition: all 0.5s ease-in-out;
+}
+
+.cards:hover .clickable-img {
   scale: 1.1;
-  transition: all 0.2s ease-out;
+  transition: all 0.5s ease-in-out;
 }
 
 .card-title {
@@ -318,7 +327,6 @@ header {
 
 .cards:hover h2 {
   color: white;
-  transition: all 0.2s ease-in-out;
 }
 
 .cards-image {
@@ -354,39 +362,49 @@ header {
 }
 
 /* CHARACTER */
-.character {
-  background-color: var(--color-grey-light);
+.detail-item {
   padding: 30px;
-  margin-bottom: 30px;
+  margin: 60px auto 30px;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  width: fit-content;
+  gap: 40px;
+  justify-content: center;
 }
 
-.character aside {
-  width: calc(100% - 280px);
+.detail-item aside  {
+  width: 265px;
+  margin-top: 100px;
 }
 
-.character:before {
-  border-color: transparent #fff transparent transparent;
-  border-style: solid;
-  border-width: 0 50px 50px 0;
-  top: 0;
-  content: "";
-  position: absolute;
-  right: 0;
-  z-index: 40;
+.detail-item aside p {
+  color: white;
+  font-weight: 300;
+  line-height: 24px;
+  text-align: justify;
 }
 
-.character h1 {
-  border-bottom: 2px solid var(--color-red);
-  margin-bottom: 40px;
+.detail-item .description  {
+  transition: all 0.4s ease-in-out;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 10px;
+  border-top: 2px white solid;
+  padding: 40px 0px 60px 100px;
+  margin-left: -100px;
+  
 }
 
-.character-focus h2 {
+
+.detail-item h1 {
+  
+}
+
+.focus h2 {
   margin-bottom: 30px;
   padding-bottom: 15px;
-  border-bottom: 2px solid var(--color-red);
+  border-bottom: 2px solid white;
 }
 
 .main-img {
@@ -397,6 +415,11 @@ header {
 }
 
 /* SLIDER */
+
+.comics-slider{
+    width: 570px;
+    margin: 0 auto 60px;
+}
 
 .slide-comics {
   display: block;
@@ -411,6 +434,86 @@ header {
   gap: 10px;
 }
 
+.slick-slider {
+  position: relative;
+}
+
+.slick-slide {
+  background-color: var(--color-red);
+  padding: 10px;
+  overflow: hidden;
+  display: flex;
+}
+
+.slick-slide > div {
+  display: flex;
+}
+
+.slick-prev {
+  position: absolute;
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid var(--color-main);
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  top: 152px;
+  left: -70px;
+  cursor: pointer;
+}
+
+.slick-next {
+  position: absolute;
+  z-index: 10;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: 1px solid var(--color-main);
+  border-radius: 50%;
+  background-color: white;
+  color: var(--color-red);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  top: 152px;
+  right: -70px;
+  cursor: pointer;
+}
+
+.slick-prev i,
+.slick-next i {
+  color: var(--color-red);
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+.slick-next:hover,
+.slick-prev:hover {
+  background-color: var(--color-red);
+}
+
+.slick-next:hover i,
+.slick-prev:hover i {
+  color: white;
+}
+
+.slick-dots{
+  display: flex;
+  flex-direction: row;
+  height: 20px;
+}
+
+.slick-dots li{
+  display: flex;
+}
+
+
 .slide-comics img {
   width: 100%;
 }
@@ -419,6 +522,8 @@ header {
 
 .btn-favoris {
   border: none;
+  text-align: center;
+  align-content: center;
   background-color: var(--color-red);
   bottom: 13px;
   left: calc(50% - 22.5px);

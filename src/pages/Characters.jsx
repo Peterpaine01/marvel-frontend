@@ -109,6 +109,11 @@ const Characters = () => {
     }
   };
 
+  const getName = (name) =>  {
+    const shortName = name.split(' (');
+    return shortName[0];
+  }
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -162,17 +167,17 @@ const Characters = () => {
                   }}
                 >
                   <div className="cards-image ">
-                    <img
+                    <img className="clickable-img"
                       src={
                         character.thumbnail.path +
                         "/portrait_uncanny." +
                         character.thumbnail.extension
                       }
-                      alt={"personnage Marvel " + character.name}
+                      alt={"personnage Marvel " + getName(character.name)}
                     />
                   </div>
                   <h2 className="flex-item card-title">
-                    {addEllipsis(character.name, 14)}
+                    {getName(character.name)}
                   </h2>
                 </div>
               </article>

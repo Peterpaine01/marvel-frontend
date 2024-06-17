@@ -96,13 +96,28 @@ const Characters = () => {
     }
   };
 
+  const getName = (name) =>  {
+    const shortName = name.split(' (');
+    return shortName[0];
+  }
+
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 6,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     initialSlide: 0,
+    prevArrow: (
+      <button type="button" className="slick-prev">
+        <i className="fa-solid fa-angle-left"></i>
+      </button>
+    ),
+    nextArrow: (
+      <button type="button" className="slick-prev">
+        <i className="fa-solid fa-angle-right"></i>
+      </button>
+    ),
     responsive: [
       {
         breakpoint: 1024,
@@ -135,56 +150,67 @@ const Characters = () => {
     <p>Loading...</p>
   ) : (
     <>
-      <main className="character-focus">
+      <main className="focus">
         <div className="container">
-          <section className="flex-parent item-relative character">
-            {user ? (
-              herosFavorites.includes(id) ? (
-                <button
-                  className=" item-absolute flex-item btn-favoris favoris"
-                  onClick={() => updateFavorite(id, "delete")}
-                >
-                  <i className="fa-solid fa-star"></i>
-                </button>
-              ) : (
-                <button
-                  className=" item-absolute flex-item btn-favoris "
-                  onClick={() => updateFavorite(id, "add")}
-                >
-                  <i className="fa-solid fa-star"></i>
-                </button>
-              )
-            ) : (
-              <Link
-                className=" item-absolute flex-item btn-favoris favoris"
-                to={`/login`}
+          <section className="flex-parent item-relative detail-item">
+            <article
+                key={characterData._id}
+                className="flex-item item-relative cards "
               >
-                <i className="fa-solid fa-star"></i>
-              </Link>
-            )}
-            <div className="main-img">
-              <img
-                src={
-                  characterData.thumbnail.path +
-                  "/standard_fantastic." +
-                  characterData.thumbnail.extension
-                }
-                alt={"personnage Marvel" + characterData.name}
-              />
-            </div>
+                {user ? (
+                  herosFavorites.includes(characterData._id) ? (
+                    <button
+                      className=" item-absolute flex-item btn-favoris favoris"
+                      onClick={() => updateFavorite(characterData._id, "delete")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  ) : (
+                    <button
+                      className=" item-absolute flex-item btn-favoris "
+                      onClick={() => updateFavorite(characterData._id, "add")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  )
+                ) : (
+                  <Link
+                    className=" item-absolute flex-item btn-favoris "
+                    to={`/login`}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </Link>
+                )}
+                <div
+                  className="item-click "
+                >
+                  <div className="cards-image ">
+                    <img
+                      src={
+                        characterData.thumbnail.path +
+                        "/portrait_uncanny." +
+                        characterData.thumbnail.extension
+                      }
+                      alt={"personnage Marvel " + getName(characterData.name)}
+                    />
+                  </div>
+                </div>
+            </article>
 
             <aside>
               <h1>{characterData.name}</h1>
-
-              {characterData.description.length > 0 ? (
-                <p>{characterData.description}</p>
-              ) : (
-                <p>Ce personnage n'a pas encore de description.</p>
-              )}
+                <div className="description">
+                  {characterData.description.length > 0 ? (
+                  <p>{characterData.description}</p>
+                  ) : (
+                  <p>Ce personnage n'a pas encore de description.</p>
+                  )}
+                </div>
+              
             </aside>
           </section>
           <section className="comics-slider">
-            <h2>Retrouvez {characterData.name} dans les comics suivants :</h2>
+            <h2>Retrouvez {characterData.name} dans ...</h2>
 
             <Slider {...settings}>
               {comicsData.map((comic) => {

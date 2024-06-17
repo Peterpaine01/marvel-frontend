@@ -3,7 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Exo+2:wght@400;600;800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 :root {
   --color-labor: black;
@@ -62,14 +62,13 @@ body h2 {
 
 body h3 {
   text-transform: uppercase;
+  font-weight: 300;
 }
 
 .flex-parent {
   display: flex;
   flex-wrap: wrap;
   gap: 100px;
-}
-.flex-item {
 }
 
 .item-click {
@@ -273,6 +272,10 @@ header {
   border-radius: 40px;
 }
 
+.cards.cards-title {
+  border-radius: 0px;
+}
+
 .detail-item .cards {
   width: 265px;
 }
@@ -291,6 +294,27 @@ header {
   transition: all 0.5s ease-in-out;
 }
 
+.wrap-title {
+  position: absolute;
+  bottom: -60px;
+  width: 68%;
+  text-align: center;
+  padding: 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-red);
+  left: 16%;
+  height: 50px;
+}
+
+.wrap-title .card-title-comics {
+  width: 100%;
+  font-size: 18px;
+  margin: 5px 0;
+  line-height: 20px;
+}
+
 .card-title {
   position: absolute;
   bottom: -55px;
@@ -303,7 +327,8 @@ header {
   height: 45px;
 }
 
-.card-title::before {
+.card-title::before,
+.wrap-title::before {
   border-color: transparent var(--color-red) transparent transparent;
   border-style: solid;
   border-width: 0 45px 45px 0;
@@ -314,7 +339,8 @@ header {
   z-index: 40;
 }
 
-.card-title::after {
+.card-title::after,
+.wrap-title::after {
   border-color: transparent transparent transparent var(--color-red);
   border-style: solid;
   border-width: 0 0 45px 45px;
@@ -323,6 +349,16 @@ header {
   position: absolute;
   right: -45px;
   z-index: 40;
+}
+
+.wrap-title::before {
+  left: -50px;
+  border-width: 0 50px 50px 0;
+}
+
+.wrap-title::after {
+  right: -50px;
+  border-width: 0 0 50px 50px;
 }
 
 .cards:hover h2 {
@@ -336,6 +372,10 @@ header {
   display: flex;
   border-radius: 30px;
   border: 11px white double;
+}
+
+.cards.cards-title .cards-image {
+  border-radius: 0px;
 }
 
 .cards-bottom {
@@ -372,9 +412,13 @@ header {
   justify-content: center;
 }
 
-.detail-item aside  {
+.detail-item aside {
   width: 265px;
   margin-top: 100px;
+}
+
+.detail-item.detail-comics aside {
+  width: 530px;
 }
 
 .detail-item aside p {
@@ -384,7 +428,7 @@ header {
   text-align: justify;
 }
 
-.detail-item .description  {
+.detail-item .description {
   transition: all 0.4s ease-in-out;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -393,12 +437,9 @@ header {
   border-top: 2px white solid;
   padding: 40px 0px 60px 100px;
   margin-left: -100px;
-  
 }
 
-
 .detail-item h1 {
-  
 }
 
 .focus h2 {
@@ -414,15 +455,36 @@ header {
   width: 250px;
 }
 
+/* COMICS DETAIL */
+
+.focus .cards-comics {
+  border-radius: 0;
+}
+
+.focus .cards-comics .cards-image {
+  border-radius: 0;
+}
+
 /* SLIDER */
 
-.comics-slider{
-    width: 570px;
-    margin: 0 auto 60px;
+.comics-slider {
+  width: 570px;
+  margin: 0 auto 60px;
 }
 
 .slide-comics {
   display: block;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.slide-comics .red-border {
+  border: 7px white double;
+  overflow: hidden;
+}
+
+.slide-comics img {
+  height: 100%;
 }
 
 .slick-list {
@@ -438,84 +500,132 @@ header {
   position: relative;
 }
 
-.slick-slide {
-  background-color: var(--color-red);
-  padding: 10px;
-  overflow: hidden;
-  display: flex;
+.slick-slide img {
+  transition: all 0.2s ease-in-out;
 }
 
-.slick-slide > div {
-  display: flex;
+.slick-slide:hover img {
+  scale: 1.1;
+  transition: all 0.2s ease-in-out;
+}
+
+.slick-slide article {
+  background-color: var(--color-red);
+  overflow: hidden;
+  display: flex !important;
+}
+
+.slick-slide h3 {
+  margin: 10px 0;
+  text-align: center;
 }
 
 .slick-prev {
   position: absolute;
   z-index: 10;
-  width: 50px;
-  height: 50px;
-  background-color: white;
   border: 1px solid var(--color-main);
   border-radius: 50%;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  top: 152px;
-  left: -70px;
   cursor: pointer;
+  top: -75px;
+  left: unset;
+  right: 40px;
+  width: 35px;
+  height: 35px;
+  background-color: #ffffff00;
+  color: white;
 }
 
 .slick-next {
   position: absolute;
   z-index: 10;
-  width: 50px;
-  height: 50px;
   background-color: white;
   border: 1px solid var(--color-main);
   border-radius: 50%;
-  background-color: white;
   color: var(--color-red);
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  top: 152px;
-  right: -70px;
   cursor: pointer;
+  top: -75px;
+  right: 0%;
+  width: 35px;
+  height: 35px;
+  background-color: #ffffff00;
 }
 
 .slick-prev i,
 .slick-next i {
-  color: var(--color-red);
-  margin-top: 4px;
-  margin-left: 2px;
+  color: white;
 }
 
 .slick-next:hover,
 .slick-prev:hover {
-  background-color: var(--color-red);
+  background-color: transparent;
 }
 
-.slick-next:hover i,
-.slick-prev:hover i {
-  color: white;
+.slick-prev.slick-disabled i,
+.slick-next.slick-disabled i {
+  color: #ffffff50;
 }
 
-.slick-dots{
-  display: flex;
+.slick-dots {
+  display: flex !important;
   flex-direction: row;
   height: 20px;
+  justify-content: center;
+  margin: 20px auto;
+  gap: 25px;
 }
 
-.slick-dots li{
-  display: flex;
+.slick-dots li button {
+  border: 0;
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  background-color: transparent;
+  position: relative;
 }
 
+.slick-dots li button:before {
+  content: " ";
+  font-size: 6px;
+  height: 10px;
+  left: 0;
+  line-height: 20px;
+  opacity: 0.25;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 10px;
+  background-color: transparent;
+  border: 1px white solid;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+}
+
+.slick-dots li.slick-active button:before {
+  background-color: var(--color-yellow);
+  opacity: 1;
+}
+
+.slick-dots li button:before,
+.slick-dots li.slick-active button:before {
+  color: var(--ifm-color-primary) !important;
+}
 
 .slide-comics img {
   width: 100%;
+}
+
+.slide-comics h3 {
+  text-align: center;
+  padding: 5px;
 }
 
 /* BOUTON FAVORIS */
@@ -593,9 +703,10 @@ header {
 /* PAGINATION */
 
 .section-pagination {
-  margin: 40px 30% 50px;
+  margin: 100px 30% 50px;
   gap: 10px;
   justify-content: center;
+  align-items: center;
 }
 
 .section-pagination button {
@@ -607,4 +718,8 @@ header {
 .section-pagination button.current {
   background-color: var(--color-yellow);
   color: var(--color-secondary);
+}
+
+.section-pagination p {
+  color: white;
 }

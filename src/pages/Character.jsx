@@ -96,10 +96,16 @@ const Characters = () => {
     }
   };
 
-  const getName = (name) =>  {
-    const shortName = name.split(' (');
+  const getName = (name) => {
+    const shortName = name.split(" (");
     return shortName[0];
-  }
+  };
+
+  const getTitle = (title) => {
+    const regex = /\s*\([^)]*\)\s*/g;
+    const shortTitle = title.split(regex);
+    return `${shortTitle[0]} ${shortTitle[1]}`;
+  };
 
   const settings = {
     dots: true,
@@ -154,59 +160,56 @@ const Characters = () => {
         <div className="container">
           <section className="flex-parent item-relative detail-item">
             <article
-                key={characterData._id}
-                className="flex-item item-relative cards "
-              >
-                {user ? (
-                  herosFavorites.includes(characterData._id) ? (
-                    <button
-                      className=" item-absolute flex-item btn-favoris favoris"
-                      onClick={() => updateFavorite(characterData._id, "delete")}
-                    >
-                      <i className="fa-solid fa-star"></i>
-                    </button>
-                  ) : (
-                    <button
-                      className=" item-absolute flex-item btn-favoris "
-                      onClick={() => updateFavorite(characterData._id, "add")}
-                    >
-                      <i className="fa-solid fa-star"></i>
-                    </button>
-                  )
-                ) : (
-                  <Link
-                    className=" item-absolute flex-item btn-favoris "
-                    to={`/login`}
+              key={characterData._id}
+              className="flex-item item-relative cards "
+            >
+              {user ? (
+                herosFavorites.includes(characterData._id) ? (
+                  <button
+                    className=" item-absolute flex-item btn-favoris favoris"
+                    onClick={() => updateFavorite(characterData._id, "delete")}
                   >
                     <i className="fa-solid fa-star"></i>
-                  </Link>
-                )}
-                <div
-                  className="item-click "
+                  </button>
+                ) : (
+                  <button
+                    className=" item-absolute flex-item btn-favoris "
+                    onClick={() => updateFavorite(characterData._id, "add")}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </button>
+                )
+              ) : (
+                <Link
+                  className=" item-absolute flex-item btn-favoris "
+                  to={`/login`}
                 >
-                  <div className="cards-image ">
-                    <img
-                      src={
-                        characterData.thumbnail.path +
-                        "/portrait_uncanny." +
-                        characterData.thumbnail.extension
-                      }
-                      alt={"personnage Marvel " + getName(characterData.name)}
-                    />
-                  </div>
+                  <i className="fa-solid fa-star"></i>
+                </Link>
+              )}
+              <div className="item-click ">
+                <div className="cards-image ">
+                  <img
+                    src={
+                      characterData.thumbnail.path +
+                      "/portrait_uncanny." +
+                      characterData.thumbnail.extension
+                    }
+                    alt={"personnage Marvel " + getName(characterData.name)}
+                  />
                 </div>
+              </div>
             </article>
 
             <aside>
-              <h1>{characterData.name}</h1>
-                <div className="description">
-                  {characterData.description.length > 0 ? (
+              <h1>{getName(characterData.name)}</h1>
+              <div className="description">
+                {characterData.description.length > 0 ? (
                   <p>{characterData.description}</p>
-                  ) : (
+                ) : (
                   <p>Ce personnage n'a pas encore de description.</p>
-                  )}
-                </div>
-              
+                )}
+              </div>
             </aside>
           </section>
           <section className="comics-slider">
@@ -217,16 +220,18 @@ const Characters = () => {
                 return (
                   <Link key={comic._id} to={`/comic/${comic._id}`}>
                     <article className="slide-comics">
-                      <img
-                        src={
-                          comic.thumbnail.path +
-                          "/portrait_uncanny." +
-                          comic.thumbnail.extension
-                        }
-                        alt=""
-                      />
-                      <h3>{comic.title}</h3>
+                      <div className="red-border">
+                        <img
+                          src={
+                            comic.thumbnail.path +
+                            "/portrait_uncanny." +
+                            comic.thumbnail.extension
+                          }
+                          alt={"comics Marvel " + getTitle(comic.title)}
+                        />
+                      </div>
                     </article>
+                    <h3>{getTitle(comic.title)}</h3>
                   </Link>
                 );
               })}

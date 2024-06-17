@@ -95,6 +95,12 @@ const Comics = () => {
     }
   };
 
+  const getTitle = (title) => {
+    const regex = /\s*\([^)]*\)\s*/g;
+    const shortTitle = title.split(regex);
+    return `${shortTitle[0]}`;
+  };
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -115,7 +121,7 @@ const Comics = () => {
             return (
               <article
                 key={comic._id}
-                className="flex-item  item-relative cards"
+                className="flex-item  item-relative cards cards-title"
               >
                 {user ? (
                   comicsFavorites.includes(comic._id) ? (
@@ -149,6 +155,7 @@ const Comics = () => {
                 >
                   <div className="cards-image ">
                     <img
+                      className="clickable-img"
                       src={
                         comic.thumbnail.path +
                         "/portrait_uncanny." +
@@ -157,9 +164,11 @@ const Comics = () => {
                       alt={"comics Marvel " + comic.title}
                     />
                   </div>
-                  <h2 className="flex-item card-title">
-                    {addEllipsis(comic.title, 28)}
-                  </h2>
+                  <div className="wrap-title">
+                    <h2 className="flex-item card-title-comics">
+                      {getTitle(comic.title)}
+                    </h2>
+                  </div>
                 </div>
               </article>
             );
@@ -173,20 +182,9 @@ const Comics = () => {
               document.documentElement.scrollTop = 0;
             }}
           >
-            first page
+            <i className="fa-solid fa-angles-left" aria-hidden="true"></i>
           </button>
-          <button
-            onClick={() => {
-              setSkip(skip + 100);
-              document.body.scrollTop = 0;
-              document.documentElement.scrollTop = 0;
-            }}
-          >
-            next page
-          </button>
-          <p>
-            <span>{currentPage}</span> / <span>{pageNumber}</span>
-          </p>
+
           <button
             onClick={() => {
               setSkip(skip - 100);
@@ -194,7 +192,19 @@ const Comics = () => {
               document.documentElement.scrollTop = 0;
             }}
           >
-            previous page
+            <i className="fa-solid fa-angle-left" aria-hidden="true"></i>
+          </button>
+          <p>
+            <span>{currentPage}</span> / <span>{pageNumber}</span>
+          </p>
+          <button
+            onClick={() => {
+              setSkip(skip + 100);
+              document.body.scrollTop = 0;
+              document.documentElement.scrollTop = 0;
+            }}
+          >
+            <i className="fa-solid fa-angle-right" aria-hidden="true"></i>
           </button>
           <button
             onClick={() => {
@@ -203,7 +213,7 @@ const Comics = () => {
               document.documentElement.scrollTop = 0;
             }}
           >
-            last page
+            <i className="fa-solid fa-angles-right" aria-hidden="true"></i>
           </button>
         </section>
       </div>

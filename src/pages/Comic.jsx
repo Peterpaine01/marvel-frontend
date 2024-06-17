@@ -131,79 +131,69 @@ const Comic = () => {
   //   ],
   // };
 
+  const getTitle = (title) => {
+    const regex = /\s*\([^)]*\)\s*/g;
+    const shortTitle = title.split(regex);
+    return `${shortTitle[0]} ${shortTitle[1]}`;
+  };
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <>
-      <main className="character-focus">
+      <main className="focus">
         <div className="container">
-          <section className="flex-parent item-relative character">
-            {user ? (
-              comicsFavorites.includes(id) ? (
-                <button
-                  className=" item-absolute flex-item btn-favoris favoris"
-                  onClick={() => updateFavorite(id, "delete")}
-                >
-                  <i className="fa-solid fa-star"></i>
-                </button>
+          <section className="flex-parent item-relative detail-item detail-comics">
+            <article className="flex-item item-relative cards cards-comics ">
+              {user ? (
+                comicsFavorites.includes(id) ? (
+                  <button
+                    className=" item-absolute flex-item btn-favoris favoris"
+                    onClick={() => updateFavorite(comicData._id, "delete")}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </button>
+                ) : (
+                  <button
+                    className=" item-absolute flex-item btn-favoris "
+                    onClick={() => updateFavorite(comicData._id, "add")}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </button>
+                )
               ) : (
-                <button
+                <Link
                   className=" item-absolute flex-item btn-favoris "
-                  onClick={() => updateFavorite(id, "add")}
+                  to={`/login`}
                 >
                   <i className="fa-solid fa-star"></i>
-                </button>
-              )
-            ) : (
-              <Link
-                className=" item-absolute flex-item btn-favoris favoris"
-                to={`/login`}
-              >
-                <i className="fa-solid fa-star"></i>
-              </Link>
-            )}
-            <div className="main-img">
-              <img
-                src={
-                  comicData.thumbnail.path +
-                  "/portrait_uncanny." +
-                  comicData.thumbnail.extension
-                }
-                alt={"comic Marvel" + comicData.title}
-              />
-            </div>
+                </Link>
+              )}
+              <div className="item-click ">
+                <div className="cards-image ">
+                  <img
+                    src={
+                      comicData.thumbnail.path +
+                      "/portrait_uncanny." +
+                      comicData.thumbnail.extension
+                    }
+                    alt={"comics Marvel " + getTitle(comicData.title)}
+                  />
+                </div>
+              </div>
+            </article>
 
             <aside>
-              <h1>{comicData.title}</h1>
-
-              {comicData.description.length > 0 ? (
-                <p>{comicData.description}</p>
-              ) : (
-                <p>Ce comic n'a pas encore de description.</p>
-              )}
+              <h1>{getTitle(comicData.title)}</h1>
+              <div className="description">
+                {comicData.description.length > 0 ? (
+                  <p>{comicData.description}</p>
+                ) : (
+                  <p>Ce comics n'a pas encore de description.</p>
+                )}
+              </div>
             </aside>
           </section>
-          {/* <section className="comics-slider">
-            <h2>Retrouvez {comicData.name} dans les comics suivants :</h2>
-
-            <Slider {...settings}>
-              {comicsData.map((comic) => {
-                return (
-                  <article className="slide-comics" key={comic._id}>
-                    <img
-                      src={
-                        comic.thumbnail.path +
-                        "/standard_fantastic." +
-                        comic.thumbnail.extension
-                      }
-                      alt=""
-                    />
-                    <h3>{comic.title}</h3>
-                  </article>
-                );
-              })}
-            </Slider>
-          </section> */}
         </div>
       </main>
     </>

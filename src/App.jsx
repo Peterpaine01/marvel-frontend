@@ -41,8 +41,8 @@ const App = () => {
     <Router>
       <Header logo={logo} token={token} handleToken={handleToken} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/characters" element={<Characters />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Characters />} />
         <Route path="/character/:id" element={<Character />} />
         <Route path="/comic/:id" element={<Comic />} />
         <Route path="/comics" element={<Comics />} />

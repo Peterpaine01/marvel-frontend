@@ -1,6 +1,8 @@
 /* GENERALES */
 
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Exo+2:wght@400;600;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&family=Kanit:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 
 :root {
   --color-labor: black;
@@ -10,12 +12,13 @@
   --color-black: black;
   --color-grey-light: #eeeeee;
   --color-grey: #969696;
-  --font-main: "Exo 2", sans-serif;
-  --font-title: "Exo 2", sans-serif;
+  --font-main: "Fjalla One", sans-serif;
+  --font-title: "Fjalla One", sans-serif;
+  --color-secondary: #071c2d;
 }
 
 body {
-  background-color: white;
+  background-color: #071c2d;
 }
 
 body p,
@@ -52,7 +55,7 @@ body h1 {
 
 body h2 {
   font-weight: 600;
-  color: var(--color-grey);
+  color: white;
   font-size: 24px;
 }
 
@@ -63,13 +66,14 @@ body h3 {
 .flex-parent {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 100px;
 }
 .flex-item {
 }
 
-.flex-item.item-click {
+.item-click {
   cursor: pointer;
+  width: 100%;
 }
 
 .flex-item img {
@@ -248,17 +252,24 @@ header {
   color: var(--color-grey);
 }
 
+/* SECTIONS */
+
+.section-list {
+  margin-bottom: 150px;
+}
+
 /* CARDS */
 
 .cards {
   transition: all 0.2s;
-  overflow: hidden;
-  width: calc(100% / 5 - 17px);
-  gap: 20px;
-  background-color: var(--color-grey-light);
+  width: calc(100% / 3 - 70px);
+  background-color: var(--color-red);
   transition: all 0.4s ease-out;
   justify-content: space-between;
   flex-wrap: wrap;
+  display: flex;
+  padding: 10px;
+  border-radius: 40px;
 }
 
 .cards:hover .cards-bottom {
@@ -271,27 +282,52 @@ header {
   transition: all 0.2s ease-out;
 }
 
-.cards:hover h2 {
-  color: white;
-  transition: all 0.2s ease-out;
+.card-title {
+  position: absolute;
+  bottom: -55px;
+  width: 50%;
+  text-align: center;
+  padding: 10px;
+  display: block;
+  background: var(--color-red);
+  left: 25%;
+  height: 45px;
 }
 
-.cards:before {
-  border-color: transparent #fff transparent transparent;
+.card-title::before {
+  border-color: transparent var(--color-red) transparent transparent;
   border-style: solid;
-  border-width: 0 50px 50px 0;
+  border-width: 0 45px 45px 0;
   top: 0;
   content: "";
   position: absolute;
-  right: 0;
+  left: -45px;
   z-index: 40;
 }
 
+.card-title::after {
+  border-color: transparent transparent transparent var(--color-red);
+  border-style: solid;
+  border-width: 0 0 45px 45px;
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -45px;
+  z-index: 40;
+}
+
+.cards:hover h2 {
+  color: white;
+  transition: all 0.2s ease-in-out;
+}
+
 .cards-image {
-  height: 381px;
+  width: 100%;
   margin-bottom: 1px;
   overflow: hidden;
   display: flex;
+  border-radius: 30px;
+  border: 11px white double;
 }
 
 .cards-bottom {
@@ -383,30 +419,87 @@ header {
 
 .btn-favoris {
   border: none;
-  background-color: #fff;
-  border-radius: 50%;
-  top: 3px;
-  right: 3px;
+  background-color: var(--color-red);
+  bottom: 13px;
+  left: calc(50% - 22.5px);
   font-size: 18px;
   font-size: 18px;
-  width: 20px;
   cursor: pointer;
+  width: 45px;
+  height: 35px;
   z-index: 1000;
   transition: all 0.2s;
+  -webkit-box-shadow: 0px 6px 35px -9px var(--color-secondary);
+  box-shadow: 0px 6px 35px -9px var(--color-secondary);
 }
 
-.btn-favoris:hover,
-.btn-favoris:target {
-  scale: 1.2;
+.btn-favoris:before {
+  border-color: transparent var(--color-red) transparent transparent;
+  border-style: solid;
+  border-width: 0 35px 35px 0;
+  top: 0;
+  content: "";
+  position: absolute;
+  left: -35px;
+  z-index: 40;
+}
+
+.btn-favoris:after {
+  border-color: transparent transparent transparent var(--color-red);
+  border-width: 0 0 35px 35px;
+  border-style: solid;
+  top: 0;
+  content: "";
+  position: absolute;
+  right: -35px;
+  z-index: 40;
 }
 
 .btn-favoris i {
   color: white;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: var(--color-grey);
+  -webkit-text-stroke-color: white;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-favoris.favoris i {
   color: var(--color-yellow);
-  -webkit-text-stroke-color: var(--color-yellow);
+  -webkit-text-stroke-color: white;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-favoris i:hover,
+.btn-favoris i:target {
+  scale: 1.2;
+}
+
+.btn-favoris i:focus,
+.btn-favoris i:active {
+  color: var(--color-yellow);
+  scale: 1.7;
+}
+
+.btn-favoris.favoris i:focus,
+.btn-favoris.favoris i:active {
+  color: white;
+  scale: 1.7;
+}
+
+/* PAGINATION */
+
+.section-pagination {
+  margin: 40px 30% 50px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.section-pagination button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.section-pagination button.current {
+  background-color: var(--color-yellow);
+  color: var(--color-secondary);
 }

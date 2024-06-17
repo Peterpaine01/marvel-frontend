@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Cookies from "js-cookie";
 
 // Components
@@ -21,6 +21,7 @@ const Characters = () => {
   const [user, setUser] = useState(null);
   const [update, setUpdate] = useState(false);
   const [herosFavorites, setHerosFavorites] = useState([]);
+  const [token, setToken] = useState(Cookies.get("token") || null);
 
   const navigate = useNavigate();
 
@@ -70,7 +71,6 @@ const Characters = () => {
   }, [search, skip]);
 
   useEffect(() => {
-    const token = Cookies.get("token");
     if (token) {
       const fetchUser = async () => {
         try {
@@ -91,7 +91,7 @@ const Characters = () => {
       setIsAuthenticated(true);
       fetchUser();
     }
-  }, [isAuthenticated, update]);
+  }, [isAuthenticated, update, token]);
 
   console.log(user);
 
@@ -124,19 +124,13 @@ const Characters = () => {
           />
         </section>
 
-        <section className="flex-parent">
+        <section className="flex-parent section-list">
           {data.results.map((character) => {
             return (
               <article
                 key={character._id}
                 className="flex-item item-relative cards "
               >
-                {/* <button
-                  className=" item-absolute flex-item btn-favoris "
-                  onClick={() => {}}
-                >
-                  <i className="fa-solid fa-star"></i>
-                </button> */}
                 {user ? (
                   herosFavorites.includes(character._id) ? (
                     <button
@@ -154,14 +148,16 @@ const Characters = () => {
                     </button>
                   )
                 ) : (
-                  <p className="not-co">
-                    Connectez-vous pour ajouter ceci à vos favoris
-                  </p>
+                  <Link
+                    className=" item-absolute flex-item btn-favoris "
+                    to={`/login`}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </Link>
                 )}
                 <div
-                  className="modal-btn modal-trigger item-click "
+                  className="item-click "
                   onClick={() => {
-                    // setCharacterId(character._id);
                     navigate(`/character/${character._id}`);
                   }}
                 >
@@ -175,19 +171,15 @@ const Characters = () => {
                       alt={"personnage Marvel " + character.name}
                     />
                   </div>
-                  <div className="cards-bottom ">
-                    <div className="cards-title flex-parent item-relative">
-                      <h2 className="flex-item">
-                        {addEllipsis(character.name, 14)}
-                      </h2>
-                    </div>
-                  </div>
+                  <h2 className="flex-item card-title">
+                    {addEllipsis(character.name, 14)}
+                  </h2>
                 </div>
               </article>
             );
           })}
         </section>
-        <section className="pagination">
+        <section className="section-pagination flex-parent">
           {pagination.map((page) => {
             return (
               <button

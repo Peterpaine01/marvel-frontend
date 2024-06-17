@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 // Images
 
 // Je récupère les props
-const Header = ({ logo, token, handleToken }) => {
+const Header = ({
+  logo,
+  token,
+  handleToken,
+  isAuthenticated,
+  update,
+  setUpdate,
+}) => {
   return (
     <>
       <header>
@@ -39,6 +46,7 @@ const Header = ({ logo, token, handleToken }) => {
                   onClick={() => {
                     // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
                     handleToken(null);
+                    setUpdate(!update);
                   }}
                 >
                   Se déconnecter

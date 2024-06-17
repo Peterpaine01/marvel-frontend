@@ -1,17 +1,27 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 // Components
 import Search from "../components/Search";
 
-const Comics = ({}) => {
+const Comics = () => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState();
   const [limit, setLimit] = useState();
   const [skip, setSkip] = useState(0);
   const [search, setSearch] = useState("");
+
+  const [user, setUser] = useState(null);
+  const [comicsFavorites, setComicsFavorites] = useState([]);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [token, setToken] = useState(Cookies.get("token") || null);
+
+  const navigate = useNavigate();
 
   const addEllipsis = (text, maxLength) => {
     return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
@@ -46,6 +56,45 @@ const Comics = ({}) => {
     fetchData();
   }, [search, skip]);
 
+  useEffect(() => {
+    if (token) {
+      const fetchUser = async () => {
+        try {
+          const response = await axios.get(
+            `https://site--marvel-backend--fklc4pfyn242.code.run/`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setUser(response.data.user);
+          setComicsFavorites(response.data.user.favorites.favoritesComics);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      setIsAuthenticated(true);
+      fetchUser();
+    }
+  }, [isAuthenticated, update, token]);
+
+  console.log(user);
+
+  const updateFavorite = async (id, method) => {
+    try {
+      const token = Cookies.get("token");
+      await axios({
+        method: "put",
+        url: `https://site--marvel-backend--fklc4pfyn242.code.run/update/comics/${id}?method=${method}`,
+        headers: { Authorization: "Bearer " + token },
+      });
+      setUpdate(!update);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
@@ -62,42 +111,61 @@ const Comics = ({}) => {
         </section>
         <section className="flex-parent">
           {data.results.map((comic) => {
+            console.log(comicsFavorites.includes(comic._id) + comic._id);
             return (
               <article
                 key={comic._id}
                 className="flex-item  item-relative cards"
               >
-                <button
-                  className="item-absolute flex-item btn-favoris"
+                {user ? (
+                  comicsFavorites.includes(comic._id) ? (
+                    <button
+                      className=" item-absolute flex-item btn-favoris favoris"
+                      onClick={() => updateFavorite(comic._id, "delete")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  ) : (
+                    <button
+                      className=" item-absolute flex-item btn-favoris "
+                      onClick={() => updateFavorite(comic._id, "add")}
+                    >
+                      <i className="fa-solid fa-star"></i>
+                    </button>
+                  )
+                ) : (
+                  <Link
+                    className=" item-absolute flex-item btn-favoris favoris"
+                    to={`/login`}
+                  >
+                    <i className="fa-solid fa-star"></i>
+                  </Link>
+                )}
+                <div
+                  className="modal-btn modal-trigger item-click "
                   onClick={() => {
-                    // handleFavorisComic(comic);
+                    navigate(`/comic/${comic._id}`);
                   }}
                 >
-                  <i className="fa-solid fa-star"></i>
-                </button>
-                <div className="cards-image ">
-                  <img
-                    src={
-                      comic.thumbnail.path +
-                      "/portrait_uncanny." +
-                      comic.thumbnail.extension
-                    }
-                    alt={"comics Marvel " + comic.title}
-                  />
-                </div>
-                <div className="cards-bottom ">
-                  <div className="cards-title flex-parent item-relative">
-                    <h2 className="flex-item ">
-                      {addEllipsis(comic.title, 28)}
-                    </h2>
+                  <div className="cards-image ">
+                    <img
+                      src={
+                        comic.thumbnail.path +
+                        "/portrait_uncanny." +
+                        comic.thumbnail.extension
+                      }
+                      alt={"comics Marvel " + comic.title}
+                    />
                   </div>
-                  {/* {comic.description && <p>{comic.description}</p>} */}
+                  <h2 className="flex-item card-title">
+                    {addEllipsis(comic.title, 28)}
+                  </h2>
                 </div>
               </article>
             );
           })}
         </section>
-        <section className="pagination">
+        <section className="section-pagination flex-parent">
           <button
             onClick={() => {
               setSkip(0);

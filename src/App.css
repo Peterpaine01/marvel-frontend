@@ -261,7 +261,6 @@ header {
 /* CARDS */
 
 .cards {
-  transition: all 0.2s;
   width: calc(100% / 3 - 70px);
   background-color: var(--color-red);
   transition: all 0.4s ease-in-out;
@@ -272,8 +271,20 @@ header {
   border-radius: 40px;
 }
 
+.outer-cards {
+  width: calc(100% / 3 - 70px);
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .cards.cards-title {
   border-radius: 0px;
+}
+
+.inner-cards.cards {
+  width: 100%;
+  padding: 5px;
+  border-radius: 35px;
 }
 
 .detail-item .cards {
@@ -372,6 +383,10 @@ header {
   display: flex;
   border-radius: 30px;
   border: 11px white double;
+}
+
+.inner-cards .cards-image {
+  border: 7px white double;
 }
 
 .cards.cards-title .cards-image {
@@ -722,4 +737,23 @@ header {
 
 .section-pagination p {
   color: white;
+}
+
+.fav-container {
+  margin-top: 80px;
+}
+
+.fav-container h1 {
+  text-align: center;
+}
+
+.fav-section {
+  margin: 40px auto 80px;
+}
+
+.fav-section h2 {
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  display: block;
+  border-bottom: 2px solid white;
 }

@@ -109,10 +109,10 @@ const Characters = () => {
     }
   };
 
-  const getName = (name) =>  {
-    const shortName = name.split(' (');
+  const getName = (name) => {
+    const shortName = name.split(" (");
     return shortName[0];
-  }
+  };
 
   return isLoading ? (
     <p>Loading...</p>
@@ -167,7 +167,8 @@ const Characters = () => {
                   }}
                 >
                   <div className="cards-image ">
-                    <img className="clickable-img"
+                    <img
+                      className="clickable-img"
                       src={
                         character.thumbnail.path +
                         "/portrait_uncanny." +

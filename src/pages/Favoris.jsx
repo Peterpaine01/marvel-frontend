@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import Cookies from "js-cookie";
 
@@ -13,6 +13,8 @@ const Favoris = () => {
   const [herosFavorites, setHerosFavorites] = useState([]);
   const [comicsFavorites, setComicsFavorites] = useState([]);
   const [token, setToken] = useState(Cookies.get("token") || null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -76,6 +78,12 @@ const Favoris = () => {
   console.log(herosFavorites);
   console.log(comicsFavorites);
 
+  const getTitle = (title) => {
+    const regex = /\s*\([^)]*\)\s*/g;
+    const shortTitle = title.split(regex);
+    return `${shortTitle[0]}`;
+  };
+
   const updateFavorite = async (id, method, type) => {
     try {
       const token = Cookies.get("token");
@@ -97,6 +105,16 @@ const Favoris = () => {
     slidesToShow: 6,
     slidesToScroll: 6,
     initialSlide: 0,
+    prevArrow: (
+      <button type="button" className="slick-prev">
+        <i className="fa-solid fa-angle-left"></i>
+      </button>
+    ),
+    nextArrow: (
+      <button type="button" className="slick-prev">
+        <i className="fa-solid fa-angle-right"></i>
+      </button>
+    ),
     responsive: [
       {
         breakpoint: 1024,
@@ -125,76 +143,101 @@ const Favoris = () => {
     ],
   };
 
+  const getName = (name) => {
+    const shortName = name.split(" (");
+    return shortName[0];
+  };
+
   return isLoading ? (
     <p>Loading...</p>
   ) : (
     <main>
       {user ? (
-        <div className="container">
-          <h1>Mes favoris</h1>
+        <div className="container fav-container">
+          <h1>
+            <i className="fa-regular fa-star"></i> Mes favoris{" "}
+            <i className="fa-regular fa-star"></i>
+          </h1>
 
-          <section className="">
+          <section className="fav-section">
             <h2>Personnages</h2>
             <Slider {...settings}>
               {herosFavorites.map((hero) => {
                 return (
-                  <article
+                  <div
                     key={hero._id}
-                    className="slide-comics flex-item item-relative"
+                    className="flex-item item-relative outer-cards "
                   >
-                    <button
-                      className=" item-absolute flex-item btn-favoris favoris"
-                      onClick={() =>
-                        updateFavorite(hero._id, "delete", "heros")
-                      }
-                    >
-                      <i className="fa-solid fa-star"></i>
-                    </button>
-                    <Link to={`/character/${hero._id}`}>
-                      <img
-                        src={
-                          hero.thumbnail.path +
-                          "/portrait_uncanny." +
-                          hero.thumbnail.extension
+                    <article className="inner-cards cards">
+                      <button
+                        className=" item-absolute flex-item btn-favoris favoris"
+                        onClick={() =>
+                          updateFavorite(hero._id, "delete", "heros")
                         }
-                        alt=""
-                      />
-                      <h3>{hero.name}</h3>
-                    </Link>
-                  </article>
+                      >
+                        <i className="fa-solid fa-star"></i>
+                      </button>
+
+                      <div
+                        className="item-click "
+                        onClick={() => {
+                          navigate(`/character/${hero._id}`);
+                        }}
+                      >
+                        <div className="cards-image ">
+                          <img
+                            className="clickable-img"
+                            src={
+                              hero.thumbnail.path +
+                              "/portrait_uncanny." +
+                              hero.thumbnail.extension
+                            }
+                            alt={"personnage Marvel " + getName(hero.name)}
+                          />
+                        </div>
+                      </div>
+                    </article>
+                    <h3>{getName(hero.name)}</h3>
+                  </div>
                 );
               })}
             </Slider>
           </section>
-          <section className="">
+          <section className="fav-section">
             <h2>Comics</h2>
             <Slider {...settings}>
               {comicsFavorites.map((comic) => {
                 return (
-                  <article
-                    key={comic._id}
-                    className="slide-comics flex-item item-relative"
-                  >
-                    <button
-                      className=" item-absolute flex-item btn-favoris favoris"
-                      onClick={() =>
-                        updateFavorite(comic._id, "delete", "comics")
-                      }
-                    >
-                      <i className="fa-solid fa-star"></i>
-                    </button>
-                    <Link to={`/character/${comic._id}`}>
-                      <img
-                        src={
-                          comic.thumbnail.path +
-                          "/portrait_uncanny." +
-                          comic.thumbnail.extension
+                  <div key={comic._id}>
+                    <article className="item-relative slide-comics">
+                      <button
+                        className=" item-absolute flex-item btn-favoris favoris"
+                        onClick={() =>
+                          updateFavorite(comic._id, "delete", "comics")
                         }
-                        alt=""
-                      />
-                      <h3>{comic.title}</h3>
-                    </Link>
-                  </article>
+                      >
+                        <i className="fa-solid fa-star"></i>
+                      </button>
+                      <div
+                        className="item-click "
+                        onClick={() => {
+                          navigate(`/comic/${comic._id}`);
+                        }}
+                      >
+                        <div className="red-border">
+                          <img
+                            src={
+                              comic.thumbnail.path +
+                              "/portrait_uncanny." +
+                              comic.thumbnail.extension
+                            }
+                            alt={"comics Marvel " + getTitle(comic.title)}
+                          />
+                        </div>
+                      </div>
+                    </article>
+                    <h3>{getTitle(comic.title)}</h3>
+                  </div>
                 );
               })}
             </Slider>

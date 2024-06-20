@@ -43,6 +43,7 @@ const Header = ({
               {token ? (
                 <Link
                   className="btn-red"
+                  to={`/login`}
                   onClick={() => {
                     // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
                     handleToken(null);

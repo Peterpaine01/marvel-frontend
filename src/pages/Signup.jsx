@@ -95,29 +95,15 @@ const Signup = ({ handleToken }) => {
               </div>
 
               <div>
-                <input
-                  type="checkbox"
-                  name="newsletter"
-                  onChange={() => {
-                    if (newsletter === true) {
-                      setNewsletter(!newsletter);
-                    }
-                  }}
-                  value={newsletter}
-                />
-                <span>S'inscrire à notre newsletter</span>
-              </div>
-              <div>
                 <p>
                   En m'inscrivant je confirme avoir lu et accepté les Termes &
-                  Conditions et Politique de Confidentialité de Vinted. Je
-                  confirme avoir au moins 18 ans.
+                  Conditions et Politique de Confidentialité de Marvel Explore.
                 </p>
               </div>
 
               <div>
                 <input
-                  className="submit-button btn-solid btn-large"
+                  className="submit-button btn-light "
                   type="submit"
                   value="S'inscrire"
                 ></input>

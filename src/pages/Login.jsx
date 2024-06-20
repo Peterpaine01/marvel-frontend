@@ -76,7 +76,7 @@ const Login = ({ handleToken }) => {
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
               <button
                 type="submit"
-                className="submit-button btn-solid btn-large"
+                className="submit-button btn-light btn-connect"
               >
                 Se connecter
               </button>

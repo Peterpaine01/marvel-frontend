@@ -91,6 +91,35 @@ body h3 {
   right: 0;
 }
 
+button,
+.btn-light,
+.btn-solid,
+.btn-red {
+  font-size: 12px;
+  padding: 9px;
+  border-radius: 5px;
+  border: 2px solid white;
+  background-color: #ffffff00;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 400;
+  line-height: 12px;
+  font-size: 18px;
+}
+
+.btn-connect {
+  width: 100%;
+  margin-top: 40px;
+  transition: all 0.5s ease-in-out;
+}
+
+.btn-connect:hover {
+  background-color: var(--color-yellow);
+  color: var(--color-secondary);
+  border-color: var(--color-yellow);
+}
+
 /* ------------ HEADER --------------- */
 
 header {
@@ -756,4 +785,74 @@ header {
   padding-bottom: 20px;
   display: block;
   border-bottom: 2px solid white;
+}
+
+/* SIGNUP */
+
+.signup-login-form {
+  width: 275px;
+}
+
+.signup-login-form h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 80px;
+}
+
+.signup-login-form input {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--color-grey-litghter);
+  color: var(--color-grey-litght);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.signup-login-form input[type="checkbox"] {
+  width: 20px;
+  margin-left: 0;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.signup-login-form input[type="checkbox"] + span {
+  color: var(--color-grey-litght);
+}
+
+.signup-login-form form > div p {
+  color: var(--color-grey-litght);
+  font-size: 13px;
+  line-height: 18px;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.signup-login-form input[type="submit"] {
+  text-align: center;
+  color: white;
+  border: 1px solid white;
+  transition: all 0.5s ease-in-out;
+  margin-top: 40px;
+  color: white;
+}
+
+.signup-login-form input[type="submit"]:hover {
+  color: var(--color-secondary);
+  border: 1px solid var(--color-yellow);
+  background-color: var(--color-yellow);
+}
+
+.signup-login-form form + p {
+  font-size: 18px;
+  text-align: center;
+  color: white;
+  margin-top: 15px;
+}
+
+.signup-login-form form + p a {
+  color: var(--color-yellow);
 }

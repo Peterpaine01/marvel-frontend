@@ -699,7 +699,7 @@ header {
   top: 0;
   content: "";
   position: absolute;
-  left: -35px;
+  left: -32px;
   z-index: 40;
 }
 
@@ -710,7 +710,7 @@ header {
   top: 0;
   content: "";
   position: absolute;
-  right: -35px;
+  right: -32px;
   z-index: 40;
 }
 

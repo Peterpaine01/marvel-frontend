@@ -17,23 +17,25 @@ const Header = ({
         <div className="top-menu">
           <div className="container flex-parent">
             <Link className="logo" to="/">
-              <img src={logo} alt="" />
+              <img src={logo} alt="logo Marvel" />
             </Link>
 
             <nav className="flex-parent">
-              <Link className="btn-light" to={`/characters`}>
+              <Link className="btn-menu" to={`/characters`}>
                 Personnages
               </Link>
-              <Link className="btn-light" to={`/comics`}>
+              <Link className="btn-menu" to={`/comics`}>
                 Comics
               </Link>
               {token ? (
-                <Link className="btn-solid" to={`/favoris`}>
+                <Link className="btn-menu" to={`/favoris`}>
+                  <i className="fa-regular fa-star" aria-hidden="true"></i>{" "}
                   Favoris
                 </Link>
               ) : (
                 <>
-                  <Link className="btn-light" to={`/login`}>
+                  <Link className="btn-menu" to={`/login`}>
+                    <i className="fa-regular fa-star" aria-hidden="true"></i>{" "}
                     Favoris
                   </Link>
                 </>
@@ -54,10 +56,7 @@ const Header = ({
                 </Link>
               ) : (
                 <>
-                  <Link className="btn-light" to={`/signup`}>
-                    S'inscrire
-                  </Link>
-                  <Link className="btn-light" to={`/login`}>
+                  <Link className="btn-red" to={`/login`}>
                     Se connecter
                   </Link>
                 </>
@@ -65,62 +64,60 @@ const Header = ({
             </nav>
           </div>
         </div>
-      </header>
-      {/* burger menu */}
-      <div className="burger-menu">
-        <input
-          className="hamburger"
-          type="checkbox"
-          id="icon-menu-burger"
-          tabindex="0"
-        />
-        <label aria-label="Ouvrir menu" for="icon-menu-burger">
-          <span></span>
-        </label>
-        <nav className="flex-parent menu-mobile">
-          <Link className="btn-light" to={`/characters`}>
-            Personnages
-          </Link>
-          <Link className="btn-light" to={`/comics`}>
-            Comics
-          </Link>
-          {token ? (
-            <Link className="btn-solid" to={`/favoris`}>
-              Favoris
+        {/* burger menu */}
+        <div className="burger-menu">
+          <input
+            className="hamburger"
+            type="checkbox"
+            id="icon-menu-burger"
+            tabIndex="0"
+          />
+          <label aria-label="Ouvrir menu" htmlFor="icon-menu-burger">
+            <span></span>
+          </label>
+          <nav className="flex-parent menu-mobile">
+            <Link className="btn-menu" to={`/characters`}>
+              Personnages
             </Link>
-          ) : (
-            <>
-              <Link className="btn-light" to={`/login`}>
+            <Link className="btn-menu" to={`/comics`}>
+              Comics
+            </Link>
+            {token ? (
+              <Link className="btn-menu" to={`/favoris`}>
                 Favoris
               </Link>
-            </>
-          )}
-          {/* Si token existe, c'est que je suis connecté, j'affiche le bouton déconnexion, sinon j'affiche les 2 autres boutons */}
+            ) : (
+              <>
+                <Link className="btn-menu" to={`/login`}>
+                  <i className="fa-regular fa-star" aria-hidden="true"></i>{" "}
+                  Favoris
+                </Link>
+              </>
+            )}
+            {/* Si token existe, c'est que je suis connecté, j'affiche le bouton déconnexion, sinon j'affiche les 2 autres boutons */}
 
-          {token ? (
-            <Link
-              className="btn-red"
-              to={`/login`}
-              onClick={() => {
-                // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
-                handleToken(null);
-                setUpdate(!update);
-              }}
-            >
-              Se déconnecter
-            </Link>
-          ) : (
-            <>
-              <Link className="btn-light" to={`/signup`}>
-                S'inscrire
+            {token ? (
+              <Link
+                className="btn-red"
+                to={`/login`}
+                onClick={() => {
+                  // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
+                  handleToken(null);
+                  setUpdate(!update);
+                }}
+              >
+                Se déconnecter
               </Link>
-              <Link className="btn-light" to={`/login`}>
-                Se connecter
-              </Link>
-            </>
-          )}
-        </nav>
-      </div>
+            ) : (
+              <>
+                <Link className="btn-red" to={`/login`}>
+                  Se connecter
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      </header>
     </>
   );
 };

@@ -856,3 +856,163 @@ header {
 .signup-login-form form + p a {
   color: var(--color-yellow);
 }
+
+/* BURGER MENU */
+
+nav.menu-mobile {
+  transform: translateY(-130%);
+  will-change: transform;
+  position: fixed;
+  top: 75px;
+  left: 0;
+  width: 100%;
+  flex-direction: column;
+  background-color: var(--color-red);
+  padding: 15px;
+  z-index: 90;
+  box-shadow: -1px 33px 30px -13px rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: -1px 33px 30px -13px rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: -1px 33px 30px -13px rgba(0, 0, 0, 0.19);
+  border-bottom: 1px solid #fc657b;
+}
+
+nav.menu-mobile a {
+  opacity: 0;
+  visibility: hidden;
+}
+
+nav.menu-mobile .btn-light {
+  border: 0;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  width: calc(100% - 8px);
+  text-align: center;
+  margin: 0 4px;
+}
+
+nav.menu-mobile .btn-outlined {
+  width: 100%;
+  text-align: center;
+}
+
+#icon-menu-burger.hamburger:checked + label ~ nav.menu-mobile {
+  transform: unset; /*on revient à l'état initial*/
+}
+
+#icon-menu-burger.hamburger:checked + label ~ nav.menu-mobile a {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Menu burger */
+
+.burger-menu {
+  display: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  left: -100vw;
+}
+
+.hamburger + label {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: #fff; */
+  /* border-radius: 9999px; */
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); */
+  margin: 0 auto;
+  position: fixed;
+  z-index: 1000;
+  top: 22px;
+  right: 15px;
+}
+
+.hamburger + label span {
+  background: white;
+  width: 30px;
+  height: 5px;
+  position: relative;
+}
+
+.hamburger + label span::before,
+.hamburger + label span::after {
+  position: absolute;
+  background: white;
+  width: inherit;
+  height: inherit;
+  content: "";
+}
+
+.hamburger + label span::before {
+  top: -10px;
+}
+.hamburger + label span::after {
+  top: 10px;
+}
+
+.hamburger:checked + label span {
+  background: transparent;
+}
+
+.hamburger:checked + label span::after,
+.hamburger:checked + label span::before {
+  top: 0;
+}
+
+.hamburger:checked + label span::before {
+  transform: rotate(45deg);
+}
+
+.hamburger:checked + label span::after {
+  transform: rotate(-45deg);
+}
+
+.hamburger:focus-visible ~ label {
+  /* outline: 2px solid #6753ea; */
+  /* outline-offset: 4px; */
+}
+
+.hamburger:not(:focus-visible) ~ label {
+  /* outline: none; */
+}
+
+.hamburger:not(:focus-visible):focus ~ label {
+  /* box-shadow: 0 0 0 4px hsl(248, 78%, 58%); */
+}
+*/
+
+/*on applique les transitions ici*/
+
+.hamburger + label span {
+  transition: background 10ms 300ms;
+}
+.hamburger + label span::before,
+.hamburger + label span::after {
+  transition: top 300ms 350ms, transform 300ms 50ms;
+}
+.hamburger:checked + label span::after,
+.hamburger:checked + label span::before {
+  transition: top 300ms 50ms, transform 300ms 350ms;
+}
+
+.hamburger:focus-visible ~ label {
+  transition: outline-offset 0.25s ease;
+}
+
+nav {
+  transition: transform 0.5s;
+}
+nav a {
+  transition: visibility 500ms, opacity 500ms 300ms;
+}

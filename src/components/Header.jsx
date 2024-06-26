@@ -49,7 +49,6 @@ const Header = ({
                   onClick={() => {
                     // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
                     handleToken(null);
-                    setUpdate(!update);
                   }}
                 >
                   Se déconnecter
@@ -103,7 +102,6 @@ const Header = ({
                 onClick={() => {
                   // Je me déconnecte en appelant la fonction handleToken et en lui donnant null en argument
                   handleToken(null);
-                  setUpdate(!update);
                 }}
               >
                 Se déconnecter
